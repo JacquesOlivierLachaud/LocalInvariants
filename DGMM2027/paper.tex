@@ -1,0 +1,178 @@
+% This is samplepaper.tex, a sample chapter demonstrating the
+% LLNCS macro package for Springer Computer Science proceedings;
+% Version 2.25 of 2026/09/03
+%
+\documentclass[runningheads]{llncs}
+%
+\usepackage[T1]{fontenc}
+% T1 fonts will be used to generate the final print and online PDFs,
+% so please use T1 fonts in your manuscript whenever possible.
+% Other font encondings may result in incorrect characters.
+%
+
+\usepackage{newtxtext}       % 
+\usepackage[varvw]{newtxmath}       % selects Times Roman as basic font
+
+
+\usepackage{graphicx}
+
+%% \documentclass[times,twocolumn,final]{elsarticle}
+
+%% \usepackage{placeins}
+
+%% \usepackage[utf8]{inputenc}
+%% \usepackage{newunicodechar}
+%% \newunicodechar{±}{\ensuremath{\pm}}
+%% \newunicodechar{²}{\ensuremath{^2}}
+%% %% Stylefile to load YCVIU template
+%% \usepackage{ycviu}
+\usepackage{framed,multirow}
+
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amsmath}
+%\usepackage{amssymb}
+%\usepackage{latexsym}
+%\usepackage{caption}
+\usepackage{subcaption}
+% added useful packages 
+%\usepackage{amsthm}
+%\usepackage{lmodern}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+% Needed to \input the matplotlib-exported .pgf plots used in the
+% experimental section (Sec.~\ref{sec:experiments}).
+\usepackage{pgf}
+\usepackage[strings]{underscore}
+\usepackage{tikz}
+\usepackage{array}
+\usetikzlibrary{calc}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{easyReview}
+%\usepackage{subfigure}
+
+
+\definecolor{newcolor}{rgb}{.8,.349,.1}
+\newcommand{\modYK}[1]{{\color{magenta}{#1}}}
+\newcommand{\jo}[1]{{\color{blue}{#1}}}
+\newcommand{\Alert}[1]{{\color{red}{#1}}}
+%\newcommand{\modM}[1]{{\color{blue}{#1}}}
+
+
+
+
+%\biboptions{sort&compress} % nice and sound citations
+
+% Float placement. LaTeX's defaults are tuned for floats that are a small
+% fraction of the page and are far too conservative for Sec. 6, where the
+% figures are large but no longer full-page: with the stock values a 6in
+% figure* is pushed onto a float-only page and the remaining ~4in is left
+% blank rather than being filled with text or a second figure. Raising the
+% fractions lets a big float share its page, and lowering \textfraction
+% stops LaTeX from insisting on a minimum quantity of body text per page.
+\renewcommand{\topfraction}{0.9}        % max page fraction for top floats
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.07}      % min page fraction that must be text
+\renewcommand{\floatpagefraction}{0.75} % a float page must be >=75% full
+\renewcommand{\dbltopfraction}{0.9}         % same, for two-column figure*
+\renewcommand{\dblfloatpagefraction}{0.75}
+\setcounter{topnumber}{3}
+\setcounter{dbltopnumber}{3}
+\setcounter{totalnumber}{4}
+
+% Required by matplotlib's pgf backend (see the header comment of any
+% exported .pgf file).
+\def\mathdefault#1{#1}
+% Search paths so that .pgf files which internally \includegraphics a
+% companion raster (e.g. the error-map insets) can find it regardless of
+% where the main .tex file lives. Each new curve gets its own
+% figures/plots/<curve>_all/ subfolder; add it here when it is introduced.
+\graphicspath{{./}{figures/}}
+
+% Following three lines are needed for this document.
+% If you are not loading colors or url, then these are
+% not required.
+% It seems that the changes package cannot be used. 
+%\usepackage{changes}
+%\usepackage[commentmarkup=footnote,todonotes={textsize=tiny}]{changes}
+%\usepackage[final]{changes}
+%\definechangesauthor[name=YK, color=red]{YK}
+%\definechangesauthor[name=KP, color=orange]{KP}
+%\definechangesauthor[name=JOL, color=blue]{JOL}
+
+%------------------------------------------------
+% Notation
+%------------------------------------------------
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\B}{B}
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\vol}{\operatorname{Vol}}
+\newcommand{\reach}{\operatorname{reach}}
+\newcommand{\Id}{\operatorname{Id}}
+\newcommand{\dist}{\operatorname{dist}}
+\newcommand{\diam}{\operatorname{diam}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\Lip}{\operatorname{Lip}}
+\newcommand{\Gr}{\operatorname{Gr}}
+\newcommand{\Le}{\ensuremath{\leqslant}}
+\newcommand{\Ge}{\ensuremath{\geqslant}}
+\newcommand{\RefTheorem}[1]{Theorem~\ref{#1}}
+\newcommand{\RefLemma}[1]{Lemma~\ref{#1}}
+\newcommand{\Equ}[1]{(\ref{#1})}
+
+%------------------------------------------------
+% Theorem environments
+%------------------------------------------------
+
+%\newtheorem{theorem}{Théorème}[section]
+%\newtheorem{definition}{Définition}[section]
+%\newtheorem{lemma}[theorem]{Lemme}
+%\newtheorem{proposition}[theorem]{Proposition}
+%\newtheorem{corollary}[theorem]{Corollaire}
+%\theoremstyle{remark}
+%\newtheorem{remark}[theorem]{Remarque}
+
+%------------------------------------------------
+
+
+\begin{document}
+
+\title{Geometric invariants based on projections for local analysis of digital sets}
+
+\author{Jacques-Olivier Lachaud\inst{1}\orcidID{0000-0003-4236-2133}
+  \and Stéphane Breuils\inst{1}\orcidID{\Alert{2222--3333-4444-5555}}}
+
+
+\authorrunning{J.-O. Lachaud and S. Breuils}
+
+\institute{%
+  LAMA, CNRS -- Universit\'{e} Savoie Mont Blanc, Chamb\'{e}ry, France 
+  \email{jacques-olivier.lachaud@univ-smb.fr}
+  \email{stephane.breuils@univ-smb.fr}
+  }
+
+\maketitle              % typeset the header of the contribution
+%
+\begin{abstract}
+
+\keywords{Geometric invariant \and Dimension analysis \and Normal estimator}
+%% MSC codes here, in the form: \MSC code \sep code
+%% or \MSC[2008] code \sep code (2000 is the default)
+\end{abstract}
+
+\input{./invariants.tex}
+
+
+%%\FloatBarrier % avoid placing images after the references
+%%\raggedbottom
+\bibliographystyle{splncs04}
+%\bibliography{msbtanest}
+
+\appendix
+
+\input{./appendix.tex}
+
+\end{document}
+

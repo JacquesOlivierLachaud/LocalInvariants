@@ -1,0 +1,640 @@
+\section{Geometric invariants based on projections}
+
+
+\paragraph*{Main notations and concepts.}
+Let $\R^d$ be the Euclidean $d$-dimensional space and $\Z^d$ its
+subset of points with integer coordinates. For any integer $m$, $0 \Le
+m \Le d$, we denote by $\mathcal{I}_m$ the set of subsets of
+$\{1,\dots,d\}$ with cardinal $m$. For any $J \in \mathcal{I}_m$, the
+map $\pi_J: \R^d \to \R^m$ is the orthogonal projection onto the
+subspace with coordinates in $J$. Let $p$ be any point of $R^d$ and
+let $r$ be a positive value which defines the radius of the local
+analysis. We write $B(p,r)$ the $d$-dimensional ball of center $p$ and
+radius $r$. The unit $m$-dimensional ball centered on $0$ is denoted
+by $B^m$, with volume $\omega_m$. If $T$ is subset of $\R^d$, we write
+$B_T(p,r)$ for $B(p,r) \cap T$. The following measures associate a
+local value to a set through projections onto sub-axes.
+
+\begin{definition}[local measures]
+  \label{def-local-measures}
+  Let $\HH^m$ be the $m$-dimensional
+  Hausdorff measure. For any subset $Y \subset \R^d$, $p \in Y$, $r>0$, we define the local measures
+  \begin{align}
+    V_J(Y,p,r) &:= \HH^m\!\left( \pi_J\bigl(B_Y(p,r)\bigr) \right),
+    \quad
+    && & W_m(Y,p,r) & := \sum_{J \in \mathcal{I}_m} V_J(Y,p,r)^2.
+  \end{align}
+\end{definition}
+
+We will establish several stability results for these measures:
+\begin{enumerate}
+\item For $T$ an arbirary $k$-dimensional plane, $W_m(T,p,r)$ is $0$ if
+  $m>k$, otherwise is a constant times the square of the volume of the
+  $m$-ball, independently of the position and the orientation of $T$ in $\R^d$.
+\item For $X$ a smooth closed $k$-manifold, $W_m(X,p,r)$ is close to
+  $W_m(T_p X,p,r)$ (for $T_p X$ the tangent plane to $X$ at $p$),
+  hence also independent of the orientation of the tangent plane.
+\item The same result hold for a covering discretization of $X$.
+\item The quantities $V_J$ are also stable and related to the local
+  geometry of $X$ or its discretization (tangent vector, normal).
+\end{enumerate}
+Clearly, these properties give mathematical tools to analyse the local
+dimension of arbitrary lattice sets as well as some geometric
+information (see section on experiments). Being measures, they are
+robust to discretization noise. We will also show the convergence of
+these local measures for finer and finer digitizations.
+
+We need a few more definitions. Let $X \subset \R^d$ be a $C^2$-smooth
+submanifold of $\R^d$ of dimension $k$ without boundary. We further
+suppose it has positive reach $\reach(X)\geq \rho>0$. For $h>0$ a
+discretization step, let $Q_h:= \left[-\frac{h}{2},
+  \frac{h}{2}\right]^d$. The \emph{$h$-covering discretization of $X$}
+is $G_h(X) := \{ z \in h\Z^d~|~X \cap (z+Q_h) \neq \emptyset \}$, its
+\emph{$h$-voxelization} is $U_h(X) := \cup_{z \in G_h(X)} (z + Q_h)$.
+%%Finally we call \emph{expected $r$-local measure of a $k$-manifold}
+%%the quantity $W_m^k := \omega_m^2\binom{k}{m}r^{2m}$.
+
+%% We have immediately:
+%% \[
+%%     X\subset U_h(X)
+%%     \subset
+%%     X+\frac{\sqrt d}{2}h B^d.
+%% \]
+
+Our main result below states that the local measure of a digitized set
+depends essentially on the dimension of its underlying submanifold,
+with an error that tends to zero with the discretization
+gridstep. This provides a tool for analyzing the local dimension of
+digital data.
+\begin{theorem}[Local approximation of $W_m$]
+\label{thm:main}
+For $p \in X$, $0 < m \Le k$, $\forall \alpha \in (0,1)$, there is a constant $C=C(d,k,m,\alpha)$ such that, if $r \Le \alpha\rho$ and $\frac{\sqrt d}{2}h \Le \alpha r$, then
+\begin{align*}
+  \left|W_m(U_h(X),p,r) - \omega_m^2\binom{k}{m}r^{2m} \right|
+  \Le  C \left( h\,r^{2m-1} + \frac{r^{2m+1}}{\rho} \right).
+\end{align*}
+\end{theorem}
+The proof relies on three lemmas: the first one controls the error
+coming from the discretization, the second one relates the local
+measures on $X$ to the same local measures on the tangent plane, the
+third one shows that this value is independent of the orientation of
+the tangent plane.
+
+\subsection{Local measures of $k$-balls are invariants}
+
+The fact that the Pythagorean theorem extends to arbitrary volumes has
+been rediscovered under different forms several times. The recent
+paper of Ancel \cite{ancel2023pythagorean}) provides a general form
+for a Lebesgue measurable set $B$ in a $k$-dimensional affine
+space. Then $\HH^k(B)^2=\sum_{J \in \mathcal{I}_k} \HH^k(\pi_J(B))^2$ (here
+Lebesgue and $k$-th Hausdorff measures are the same).
+
+We provide here a much simpler proof for the case of the ball, which
+is sufficient in our context. This formulation also extends the result to lower dimensional projections.
+\begin{theorem}\label{thm:ball-invariants}
+Let $B^k$ be the unit Euclidean ball embedded isometrically into
+$\mathbb{R}^d$ with the linear map $A\in\mathbb{R}^{n\times k}, A^T
+A=\mathrm{Id}_k$ (so $k \le d$).  For every integer $m$, $0\le m\le k$, one has
+\begin{equation}
+  \label{eq:ball-invariants}
+  \sum_{J \in \mathcal{I}_m} \HH^m(\pi_J(B^k))^2 = \omega_m^2 \binom{k}{m}.
+\end{equation}
+The same sum is obviously null if $k < m \Le d$.
+%% \end{minipage}
+%% \hfill
+%% \begin{minipage}{0.45\textwidth}
+%% \begin{equation}
+%%   \label{eq:pythagorean-ball-2}
+%%   W_m(A(rB^k),0,r) = \omega_m^2 \binom{k}{m} r^{2m}.
+%% \end{equation}
+%% \end{minipage}
+\end{theorem}
+\begin{proof}
+For every subset $J \in \mathcal{I}_m$, Lemma~\ref{lem:svd} (see appendix) applied
+to $L=\pi_J\circ A$ gives
+\begin{equation}
+  \label{eq-vol-proj-ball-1}
+  \HH^m(\pi_J( B^k ))^2
+  =\omega_m^2 \det(A_J A_J^T),
+\end{equation}
+where $A_J$ is the matrix containing the rows of $A$ indexed by
+$J$. We denote by $\mathcal{I}^k_m$ the set of subsets of
+$\{1,\dots,k\}$ with size $m$ (remember that $A_J$ may not be a square
+matrix).  By the Cauchy--Binet formula, we have
+\begin{equation}
+  \label{eq-cauchy-binet-1}
+\det(A_J A_J^T)
+=
+\sum_{I \in \mathcal{I}^k_m}
+\det(A_J^I) \det( (A_J^T)_I ),
+=
+\sum_{I \in \mathcal{I}^k_m}
+\det(A_J^I)^2,
+\end{equation}
+where $A_J^I$ denotes the $m\times m$ submatrix obtained by selecting
+the rows indexed by $J$ and the columns indexed by $I$, and where we
+have used that $(A_J^T)_I = (A_J^I)^T$ and the equality of the
+determinant of a matrix and its transpose.
+Therefore, \Equ{eq-vol-proj-ball-1} and \Equ{eq-cauchy-binet-1} implies that
+\begin{align}
+  \sum_{J \in \mathcal{I}_m}
+  \HH^m(\pi_J(B^k))^2
+  & =
+  \omega_m^2
+  \sum_{J \in \mathcal{I}_m}
+  \sum_{I \in \mathcal{I}^k_m}
+  \det(A_J^I)^2
+  \nonumber \\
+  \label{eq-proj-vol-ball-2}
+  & =
+  \omega_m^2
+  \sum_{I \in \mathcal{I}^k_m}
+  \sum_{J \in \mathcal{I}_m}
+  \det(A_J^I)^2.
+  && \text{(swapping the sums)}
+\end{align}
+Fix a subset $I$. The matrix $A^I$ consisting of the corresponding $m$
+columns of $A$ satisfies $(A^I)^T A^I=\mathrm{Id}_m$, because the
+columns of $A$ are orthonormal.
+Applying Cauchy--Binet once more, we get
+\begin{equation}
+  \label{eq-cauchy-binet-2}
+  1 = \det(\mathrm{Id}_m) = \det((A^I)^T A^I) = \sum_{J \in \mathcal{I}_m} \det(A_J^I)^2.
+\end{equation}
+Since there are $\binom{k}{m}$ possible subsets $I$ in $\mathcal{I}^k_m$, inserting \Equ{eq-cauchy-binet-2} into \Equ{eq-proj-vol-ball-2} gives
+
+\[
+\sum_{J \in \mathcal{I}_m}
+\HH^m(\pi_J(B^k))^2
+=
+\omega_m^2
+\binom{k}{m}.
+\]
+
+This completes the proof. \qed
+\end{proof}
+Thus the result is independent of the orientation of the ball in the
+embedding space, as well as the dimension of this space. Let us denote
+$\bar{W}_{m}(k)$ these geometric invariants of the $k$-ball. So for $0
+\Le m \Le k$, $\bar{W}_{m}(k)=\omega_m^2\binom{k}{m}$ and for $k < m
+\Le d$, $\bar{W}_{m}(k)=0$.  An immediate corollary is that, for $T$
+any affine $k$-dimensional plane and $p \in T$, $W_m( B_T(p,r),p,r) =
+\bar{W}_{m}(k) r^{2m}$.  These values (scaled by $r^{2m}$) correspond
+to the expected values of the local measures when analyzing
+digitizations of $k$-dimensional submanifolds (see appendix for tables
+expliciting their values in low dimension).
+
+
+
+
+
+\subsection{Local measures are stable in a neighborhood of a submanifold}
+
+For a positive value $\delta$, we use the notation $(Y)_\delta$ to
+denote the dilation of $Y$ with the ball of radius $\delta$. The tangent plane $T_p X$ of $X$ at $p$ is simply written $T$.
+\begin{theorem}%%[Stabilité des volumes projetés au voisinage d'une sous-variété]
+\label{thm:stabilite-projections}
+Under the hypotheses of \RefTheorem{thm:main}, there exists a constant
+$\alpha_0 \in (0,1)$ and a constant $C=C(d,k)>0$ such that, for $0<r
+\Le \alpha_0 \rho$ and $0 \Le \varepsilon \Le r$, for all
+compact set $Y\subset\mathbb R^d$ with
+\begin{equation}
+\label{eq:encadrement-Y}
+    X \cap B(p,r) \subset Y \subset (X \cap B(p,r))_\varepsilon,
+\end{equation}
+then for any $J\in \mathcal{I}_m$ it holds:
+\begin{align}
+\label{eq:stabilite-VJ}
+\left| V_J(Y,p,r)- V_J(B_T(p,r),p,r)\right|
+& \Le C r^{m-1}\left( \varepsilon+\frac{r^2}{\rho} \right), \\
+\label{eq:stabilite-W} 
+\left| W_m(Y,p,r)-\omega_m^2\binom{k}{m}r^{2m} \right|
+& \Le C r^{2m-1} \left( \varepsilon+\frac{r^2}{\rho} \right).
+\end{align}
+\end{theorem}
+\begin{proof}
+  To simplify expressions, $C$ is a positive constant depending only
+  on $d$ and $k$, whose value may be updated during the proof. We
+  write $D_r$ for the disk $B_T(p,r)$.
+  \begin{enumerate}
+    % \textbf{1. Approximation de $X_r$ par le disque tangent.}
+  \item We start by approximating $X_r:=X \cap B(p,r)$ by $D_r$. Since
+    $X$ has positive reach, for a sufficiently small $\alpha_0$, the
+    set $X$ is in a neighborhood of $p$ the graph of a $C^2$-map
+    $f:\Omega\subset T\longrightarrow T^\perp$, with $f(0)=0$,
+    $Df(0)=0$, $|f(u)|\Le C\frac{|u|^2}{\rho}$, $\|Df(u)\|\Le
+    C\frac{|u|}{\rho}$.
+    
+    Let $\Phi(u):=p+u+f(u)$. For $x=\Phi(u)\in X_r$, since $u\perp
+    f(u)$ we have $|u|\Le |x-p| \Le r$. Furthermore
+    $|x-(p+u)|=|f(u)| \Le C\frac{r^2}{\rho}=:\delta$. We obtain:
+    \begin{equation}
+      \label{eq:X-outer}
+      X_r\subset (D_r)_\delta.
+    \end{equation}
+    Reciprocally, we can set $r_-:=r-C\frac{r^3}{\rho^2}>0$, with
+    $\alpha_0$ small enough so that $r-r_- \le \delta$, such that
+    \begin{equation}
+      \label{eq:inner-graph}
+      \Phi(B_T(0,r_-))\subset X_r.
+    \end{equation}
+    
+    Indeed, for $|u|\Le r_-$, $|\Phi(u)-p|^2 = |u|^2+|f(u)|^2 \Le
+    |u|^2+C\frac{|u|^4}{\rho^2}$. the choice of $r_-$ induces that
+    the last member is smaller or equal to $r^2$.
+    
+    %\textbf{2. Projection et inclusion extérieure.}
+  \item We verify now than the projection of $Y$,
+    $\mathcal{F}_J:=\pi_J(Y)$, is included in some dilation of the
+    projected disk, denoted by $\mathcal{E}_J:=\pi_J(D_r)$.
+
+    Using \eqref{eq:encadrement-Y} and the fact that
+    $\pi_J$ is $1$-Lipschitz, we get $\pi_J(X_r) \subset \mathcal{F}_J
+    \subset \pi_J(X_r)+B^m_\varepsilon$.
+    Using \eqref{eq:X-outer}, it follows that
+    \begin{align}
+      \label{eq:outer-projection}
+      \mathcal{F}_J\subset \mathcal{E}_J+B^m_\eta,
+      \quad\text{with}\quad
+      %\label{eq:eta-definition}
+      \eta:=\varepsilon+\delta
+      =
+      \varepsilon+C\frac{r^2}{\rho}.
+    \end{align}
+
+    The difficulty lies now in controlling the volume of
+    $\mathcal{F}_J$, which must also contain a big enough part of
+    $\mathcal{E}_J$. 
+
+    %% \textbf{3. Géométrie de l'ellipsoïde tangent.}
+    \item To do so, we must first understand the geometry of
+      $\mathcal{E}_J$, which may be degenerated.  Consider the linear
+      map $A_J:=\pi_J|_T:T\longrightarrow \R^m$. Let $1 \Ge \sigma_1
+      \Ge \cdots \Ge \sigma_m \Ge 0$ the $m$ biggest singular values
+      of $A_J$. It is well known that the semi-axes of $\mathcal{E}_J$ are
+      $r\sigma_1,\ldots,r\sigma_m$. So its $m$-volume is
+      \begin{equation}
+        \label{eq:ellipsoid-volume}
+        \HH^m(\mathcal{E}_J)
+        =
+        \omega_m r^m\prod_{i=1}^m\sigma_i.
+      \end{equation}
+      We separate two cases according to the value of the smallest
+      singular value $\sigma_m$.
+
+      %\textbf{4. Cas presque dégénéré.}
+    \item If $r\sigma_m\Le C_0\eta$ for $C_0>0$ an arbitrary fixed
+      constant, then $A_J$ is almost degenerated and we must show that
+      sets $\mathcal{E}_J$ and $\mathcal{F}_J$ are both sufficiently
+      small.  In the ellipsoid principal coordinates, $\mathcal{E}_J
+      \subset \prod_{i=1}^m [-r\sigma_i,r\sigma_i]$. The $m-1$ first
+      dimensions are no greater than $2r$ while the last is at most
+      $2C_0\eta$. According to \eqref{eq:ellipsoid-volume}, its volume is bounded as
+      \begin{equation}
+        \label{eq:degenerate-ellipsoid-volume}
+        \HH^m(\mathcal{E}_J)
+        \Le C r^{m-1}\eta.
+      \end{equation}
+      Besides, using \eqref{eq:outer-projection},
+      $\mathcal{F}_J\subset\mathcal{E}_J+B^m_\eta$ holds. The right
+      set is obviously contained in the box $\prod_{i=1}^m
+      [-r\sigma_i-\eta,r\sigma_i+\eta]$.
+
+      Exploiting hypotheses, we see that $\eta \Le C r$. The $m-1$
+      first dimensions are of size $O(r)$ while the last one has size
+      $O(\eta)$, leading to
+      \begin{equation}
+        \label{eq:degenerate-F-volume}
+        \HH^m(\mathcal{F}_J)
+        \Le C r^{m-1}\eta.
+      \end{equation}
+
+      Combining \eqref{eq:degenerate-ellipsoid-volume} and
+      \eqref{eq:degenerate-F-volume} shows these two sets are small, hence
+      close in measure:
+      \begin{equation}
+        \label{eq:degenerate-result}
+        \left|
+        \HH^m(\mathcal{F}_J)
+        -
+        \HH^m(\mathcal{E}_J)
+        \right|
+        \Le C r^{m-1}\eta.
+      \end{equation}
+      
+      %%\textbf{5. Cas non dégénéré : inclusion intérieure.}
+    \item If now $r\sigma_m>C_0\eta$, with $C_0$ big enough, the
+      linear map $A_J$ is not degenerate and we will show that the
+      projected ellipsoid has a big enough interior.  Let us denote
+      $L_J:=(\ker A_J)^\perp \cap T$. We have $\dim L_J=m$ and
+      $\widetilde A_J:=A_J|_{L_J}$ is an isomorphism from $L_J$ onto
+      $\R^m$. For any radius $s>0$, we have $A_J(B_T(0,s))= \widetilde
+      A_J(B_{L_J}(0,s))$.
+
+      Our objective is to understand how the local deformation of $X$
+      with respect to $T$ induces a deformation of the projection onto
+      $T$. We consider the local map $G_J: B_{L_J}(0,r_-)\to \R^m$
+      defined as $G_J(u) := \pi_J(\Phi(u)) = \pi_J(p) + \widetilde
+      A_J(u) + \pi_J(f(u))$. Using \eqref{eq:inner-graph},
+      \begin{equation}
+        \label{eq:G-image}
+        G_J(B_{L_J}(0,r_-)) = \pi_J(\Phi(B_{L_J}(0,r_-))) \subset
+        \pi_J(X_r) \subset \mathcal{F}_J.
+      \end{equation}
+
+      Let us introduce the homotopy $G_{J,t}(u) := \pi_J(p) +
+      \widetilde A_J (u) + t\,\pi_J(f(u))$ for $t\in[0,1]$. One can
+      see that $G_{J,0}(u) = \pi_J(p)+\widetilde A_J(u)$ and
+      $G_{J,1}=G_J$. We use this homotopy to connect the ellipsoid
+      $\mathcal{E}_J$ to the projection $\mathcal{F}_J$, both
+      slightly retracted. Let us define this slightly retracted
+      ellipsoid $\mathcal{E}_J^- := \pi_J(p) + \widetilde
+      A_J(B_{L_J}(0,r_-))$.
+
+      From its definition, for any $u$ on the boundary $\partial
+      B_{L_J}(0,r_-)$ and for any $t\in[0,1]$, the relation
+      $|G_{J,t}(u)-G_{J,0}(u)| \Le |f(u)| \Le \delta$ holds. It induces:
+      \begin{equation}
+        \label{eq:homotopy-boundary}
+        G_{J,t}(\partial B_{L_J}(0,r_-))
+        \subset
+        (\partial\mathcal{E}_J^-)_{\delta}.
+      \end{equation}
+
+      If we choose a point $y$ in the ellipsoid $\mathcal{E}_J^-$, but
+      far enough from its boundary, i.e. $\operatorname{dist}
+      (y,\partial\mathcal{E}_J^-) >\delta$. Then
+      \eqref{eq:homotopy-boundary} implies that the point $y$ cannot
+      belong to the image of the boundary $G_{J,t}(\partial
+      B_{L_J}(0,r_-))$ for any $t\in[0,1]$.  The Brouwer degree
+      $\deg\bigl( G_{J,t}, B_{L_J}(0,r_-), y \bigr)$ is thus well
+      defined, constant and independent of $t$ (homotopy invariance of
+      degree of an interior point). For $t=0$, the map $G_{J,0}$ is an
+      affine isomorphism, its degree is $\pm1$; so the map $G_{J,1}$
+      has the same degree, and exactly one antecedent in this
+      domain. In particular point $y$ belongs to the image of $G_J$ of
+      the domain $B_{L_J}(0,r_-)$. Using \eqref{eq:G-image}, we get
+      $y\in \mathcal{F}_J$. Since $y$ was at distance at least
+      $\delta$ from the boundary of the contracted ellipsoid, we have
+      shown
+      \begin{equation}
+        \label{eq:inner-contracted}
+        \mathcal{E}_J^- \setminus (\partial\mathcal{E}_J^-)_{\delta} \subset \mathcal{F}_J.
+      \end{equation}
+      It remains to replace $\mathcal{E}_J^-$ with
+      $\mathcal{E}_J$. These two ellipsoid are homothetic and, since
+      $\pi_J$ is 1-Lipschitz, $d_H(\mathcal{E}_J^-,\mathcal{E}_J) \Le
+      r-r_- \Le C\frac{r^3}{\rho^2} \Le C\delta$.  By convexity any
+      point of $\mathcal{E}_J$ at distance greater than
+      $\delta+(r-r_-)$ from its boundary belongs to $\mathcal{E}_J^-$
+      while being at distance greater than $\delta$ from $\partial
+      \mathcal{E}_J^-$. Noticing than $\delta + (r-r_-)\Le 2\delta \Le 2\eta$, the
+      inclusion \eqref{eq:inner-contracted} shows that
+      \begin{equation}
+        \label{eq:inner-final}
+        \mathcal{E}_J
+        \setminus
+        (\partial\mathcal{E}_J)_{2\eta}
+        \subset \mathcal{F}_J.
+      \end{equation}
+
+      %\textbf{6. Contrôle de la couche de bord.}
+      \item The exterior inclusion \eqref{eq:outer-projection} and the
+        inner inclusion \eqref{eq:inner-final} implies that the
+        symmetric difference of $\mathcal{F}_J$ and $\mathcal{E}_J$ is
+        $2\eta$-close to the ellipsoid boundary:
+        \begin{equation}
+          \label{eq:symmetric-difference}
+          \mathcal{F}_J\triangle\mathcal{E}_J
+          \subset
+          (\partial\mathcal{E}_J)_{2\eta}.
+        \end{equation}
+        It remains to evaluate the $m$-volume of the latter set.  The
+        Steiner formula (or Minkowski-Steiner formula) for convex sets
+        tells, for $0<t \Le r$ and a convex set $K$ included in a
+        $m$-dimensional ball with radius $r$: $\HH^m(K+tB^m) -
+        \HH^m(K) \Le C_m t r^{m-1}$. For the erosion $K-tB^m$, the
+        argument is that the area of the parallel sets are
+        decreasing. Thus $\HH^m(K) - \HH^m (K-tB^m) = \int_0^t
+        \mathrm{Area}(K-sB^m) ds \Le \int_0^t \mathrm{Area}(K) ds \Le
+        t \mathrm{Area}(K) = m \omega_m tr^{m-1}$. It follows that
+        \begin{equation}
+          \label{eq:convex-boundary-layer}
+          \HH^m((\partial K)_t)
+          \Le C'_m t r^{m-1}.
+        \end{equation}
+        Since $\mathcal{E}_J \subset B^m(\pi_J(p),r)$, applying the
+        estimate \eqref{eq:convex-boundary-layer} to $t=2\eta$ gives
+        $\HH^m \bigl( (\partial\mathcal{E}_J)_{2\eta} \bigr) \Le C
+        \eta r^{m-1}$.  Since $m$-volume are increasing,
+        \eqref{eq:symmetric-difference} implies
+        \begin{equation}
+          \label{eq:nondegenerate-result}
+          \left| \HH^m(\mathcal{F}_J) - \HH^m(\mathcal{E}_J) \right|
+          \Le C\eta r^{m-1}.
+        \end{equation}
+
+        %\textbf{7. Conclusion pour les volumes projetés.}
+      \item We can now conclude for both the degenerate case with
+        \eqref{eq:degenerate-result} and the non-degenerate case
+        with \eqref{eq:nondegenerate-result}, which imply in all cases that
+        $\left|\HH^m(\mathcal{F}_J)-\HH^m(\mathcal{E}_J)\right|\Le
+        C\eta r^{m-1}$.
+
+        Since $\eta=\varepsilon+C\frac{r^2}{\rho}$ and using the
+        definitions of $\mathcal{F}_J$ and $\mathcal{E}_J$, we get:
+        \begin{equation*}
+          \left| \HH^m(\mathcal{F}_J) - \HH^m(\mathcal{E}_J) \right| =
+          \left| V_J(Y,p,r)- V_J(B_T(p,r),p,r)\right| \Le C r^{m-1}
+          \left( \varepsilon+\frac{r^2}{\rho} \right),
+        \end{equation*}
+        which is exactly \eqref{eq:stabilite-VJ}.
+
+        %%\textbf{8. Passage à $W_m^k$.}
+      \item It remains to show the relation on $W_m$. Let
+        $a_J:=\HH^m(\pi_J(Y))$, $b_J:=\HH^m(\pi_J(D_r))$. The previous
+        relation gives $|a_J-b_J| \Le C r^{m-1} \left(
+        \varepsilon+\frac{r^2}{\rho} \right)$.  Besides, by hypothesis
+        we have $Y\subset (X_r)_\varepsilon$ which is itself included
+        in the ball $\subset B(p,r+\varepsilon)$ (a very rough
+        estimate). Since $\varepsilon\Le r$, we have $a_J+b_J\Le C
+        r^m$. This implies:
+        \begin{equation*}
+          |a_J^2-b_J^2| = |a_J-b_J|\,(a_J+b_J) \Le C r^{2m-1}
+          \left( \varepsilon+\frac{r^2}{\rho} \right).
+        \end{equation*}
+        Summing on all possible $J \in \mathcal{I}_m$ gives the relation for $W_m$:
+        \[
+        \left| W_m(Y,p,r)-W_m(D_r,p,r)\right| \Le C r^{2m-1} \left( \varepsilon+\frac{r^2}{\rho}\right).
+        \]
+        Since $D_r=B(p,r) \cap T$, we have $D_r=p +
+        rB^k$. \RefTheorem{thm:ball-invariants} gives:
+        \[
+        W_m(D_r,p,r) = r^{2m} W_m( B^k,0,1 ) =
+        r^{2m} \sum_{J \in \mathcal{I}_m} \HH^m(\pi_J(B^k))^2
+        = \omega_m^2\binom{k}{m}r^{2m}.
+        \]
+        Combining the two above relations prove \eqref{eq:stabilite-W}.
+  \end{enumerate}
+\end{proof}
+
+
+\subsection{Discretization error}
+
+We show that the $h$-voxelization of $X$ satisfies the conditions of
+the previous stability theorem, with an approximation parameter
+$\varepsilon_h=O(\sqrt d\,h)$.
+
+\begin{theorem}[Cubical approximation within a ball]
+\label{thm:cubical-admissible-set}
+Let $X_r:=X\cap B(p,r), Y_h:=U_h(X)\cap B(p,r)$. There exist universal
+constants $\alpha_0>0$ and $C>0$ such that, if $0<r \Le \alpha_0\rho$
+and $0<h \Le r$, then $X_r \subset Y_h \subset (X_r)_{\varepsilon_h}$,
+with $\varepsilon_h=C\sqrt d\,h$. 
+\end{theorem}
+\begin{proof}
+The first inclusion is immediate due to voxelization being the
+covering of $X$ by cubes.  We now prove the second inclusion.  Let
+$y\in Y_h$. By definition, $y$ belongs to a cube $Q := z + Q_h$, $z
+\in h\Z^d$ such that $Q\cap X\neq\varnothing$.  Choose $x\in Q\cap
+X$. Since $Q_h$ has diameter $\sqrt d\,h$,
+\begin{equation}
+\label{eq:y-x-cube}
+    |y-x|\Le \sqrt d\,h.
+\end{equation}
+Moreover, $y\in B(p,r)$ implies $|x-p| \Le |x-y|+|y-p| \Le r+\sqrt
+d\,h$.  Thus $x\in X\cap B(p,r+\sqrt d\,h)$.  If $x\in B(p,r)$, then
+$x\in X_r$ and $\operatorname{dist}(y,X_r) \Le |y-x| \Le \sqrt
+d\,h$.
+
+It remains to consider the case $r<|x-p|\Le r+\sqrt d\,h$ (where $x$
+is slightly outside $X_r$). We must find a point $x_*$ in $X_r$ close to
+$x$. Since $r\Le\alpha_0\rho$, with $\alpha_0$ sufficiently small, $X$ is,
+in a neighborhood of $p$, the graph over the tangent plane $T:=T_pX$
+of a $C^2$ map $f:\Omega\subset T \to T^\perp$ (see proof of
+\RefTheorem{thm:stabilite-projections}), with $f(0)=0, Df(0)=0,
+\|Df(u)\| \Le C_0\frac{|u|}{\rho}$. Let $\Phi(u):=p+u+f(u)$ and
+$x=\Phi(u)$ for some $u$.
+
+Consider the radial curve on $X$ $\gamma(t):=\Phi(tu)$, for $0\Le
+t\Le 1$.  The function $g(t):=|\gamma(t)-p|$ is continuous, with
+$g(0)=0$ and $g(1)=|x-p|>r$.  Hence there exists $t_*\in(0,1)$ such
+that $|\gamma(t_*)-p|=r$.  Set $x_*:=\gamma(t_*)\in X\cap\partial
+B(p,r) = X_r$.  We claim that
+\begin{equation}
+\label{eq:x-xstar}
+    |x-x_*| \Le C_1\bigl(|x-p|-r\bigr),
+\end{equation}
+where $C_1$ is universal provided $\alpha_0$ is sufficiently small.
+
+Indeed, differentiating $\gamma$ wrt $t$ gives $\gamma'(t) = u+Df(tu)[u]$,
+so that
+\[
+    |\gamma'(t)| \Le \left(1+C_0\frac{|u|}{\rho}\right)|u| \Le
+    (1+C_0\alpha_0)|u|.
+\]
+On the other hand, since $f(u)\perp T$, $|\Phi(u)-p|^2 =
+|u|^2+|f(u)|^2$ and the same identity holds with $u$ replaced by $tu$.
+Using the bounds on $f$ and $Df$, and decreasing $\alpha_0$ if
+necessary, the radial function $g(t)=|\Phi(tu)-p|$ satisfies
+$g'(t)\Ge c\,|u|$ for some universal constant $c>0$ and all
+$t\in[t_*,1]$.
+
+Consequently, $|x-p|-r = g(1)-g(t_*) \Ge c|u|(1-t_*)$. Now
+\[
+|x-x_*| \Le \int_{t_*}^1|\gamma'(t)|\,dt \Le (1+C_0\alpha_0)|u|(1-t_*) \Le \frac{1+C_0\alpha_0}{c}(|x-p|-r),
+\]
+using the relation above for the last inequality. This proves
+\eqref{eq:x-xstar}. 
+
+Since $|x-p|-r\Le\sqrt d\,h$, it implies $|x-x_*| \Le C_1\sqrt
+d\,h$.  Combining this with \eqref{eq:y-x-cube} yields
+$\operatorname{dist}(y,X_r) \Le |y-x_*| \Le |y-x|+|x-x_*| \Le
+(1+C_1)\sqrt d\,h$.  Choosing $C=1+C_1$ and setting $\varepsilon_h :=
+C\sqrt d\,h$, we get $y\in(X_r)_{\varepsilon_h}$.  Since $y\in Y_h$
+was arbitrary, $Y_h\subset(X_r)_{\varepsilon_h}$ and we conclude.
+\end{proof}
+
+
+
+%% We have to take care of the fact that the intersection of $U_h(X)$
+%% with the local ball may contain points of $X$ slightly away from this
+%% ball.
+
+%% \begin{lemma}%%[Erreur de discrétisation]
+%% \label{lem:discretization}
+%% Under the hypotheses of \RefTheorem{thm:main}, there is a constant $C=C(d,k,m,\alpha)$ such that, for all $J \in \mathcal{I}_m$:
+%% \begin{align*}
+%%   \left|V_J(U_h(X),p,r)-V_J(X,p,r)\right| & \Le C h r^{m-1},\\
+%% %%  && \quad \text{and} \quad &
+%%   \left|W_m(U_h(X),p,r)-W_m(X,p,r)\right| & \Le C h r^{2m-1}.
+%% \end{align*}
+%% \end{lemma}
+
+%% \begin{proof}
+%%   Let $\eps_h=\frac{\sqrt d}{2}h$. It is clear that $X\subset
+%%   U_h(X)\subset X+\eps_h B^d$ (for $+$ is the Minkowski sum).  These
+%%   inclusions hold after intersection with $B(p,r)$ and after
+%%   projection, so:
+%%   \begin{align*}
+%%     \pi_J(X\cap B(p,r))
+%%     \subset
+%%     \pi_J(U_h(X)\cap B(p,r))
+%%     \subset
+%%     \pi_J(X\cap B(p,r+\eps_h))
+%%     +
+%%     \eps_h B^m,
+%%   \end{align*}
+%% where $B^m$ is the unit $m$-dimensional ball centered on $0$.  Since
+%% $r \Le \alpha\rho$ (smaller than the reach), the submanifold $X$ is a
+%% $C^1$ graph $f$ over the tangent plane $T=T_p X$ within $B(p,2r)$,
+%% with bounded value $\|f\| \Le C_\alpha\frac{r^2}{\rho}$ and bounded
+%% differential $\|Df\| \Le C'_\alpha\frac r\rho$.
+
+%% En particulier, les projections
+%% \[
+%%     \pi_J(X\cap B(p,r+\eps_h))
+%% \]
+%% possèdent un contenu de Minkowski $(m-1)$ uniformément contrôlé par
+%% \[
+%%     C_{d,k,m,\alpha}r^{m-1}.
+%% \]
+%% Le passage de $r$ à $r+\eps_h$ ajoute donc un volume
+%% \[
+%%     O_{d,k,m,\alpha}
+%%     \left(r^{m-1}\eps_h\right),
+%% \]
+%% et le voisinage $\eps_h B^m$ ajoute un terme de même ordre.
+
+%% Ainsi
+%% \[
+%%     \left|
+%%     V_J(U_h(X),r)-V_J(X,r)
+%%     \right|
+%%     \Le
+%%     C_{d,k,m,\alpha}
+%%     r^{m-1}\eps_h
+%%     \Le
+%%     C_{d,k,m,\alpha}hr^{m-1}.
+%% \]
+
+%% Enfin, toutes les quantités $V_J(X,r)$ et $V_J(U_h(X),r)$ sont
+%% $O(r^m)$. Donc
+%% \[
+%% \begin{aligned}
+%% \left|
+%% V_J(U_h,r)^2-V_J(X,r)^2
+%% \right|
+%% &\Le
+%% \left|V_J(U_h,r)-V_J(X,r)\right|
+%% \\
+%% &\qquad\qquad\times
+%% \left(V_J(U_h,r)+V_J(X,r)\right)
+%% \\
+%% &\Le
+%% C h r^{2m-1}.
+%% \end{aligned}
+%% \]
+%% La sommation sur les
+%% $\binom dm$ ensembles $J$ donne le résultat.
+%% \end{proof}

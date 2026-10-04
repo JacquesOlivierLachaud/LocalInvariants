@@ -1,0 +1,70 @@
+\section{Useful lemmas}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{lemma}\label{lem:svd}
+Let $B^k$ be the unit $k$-ball in $\R^k$, let
+$L:\mathbb{R}^k\longrightarrow\mathbb{R}^m$ be a linear map of rank
+$m\le k$.  Then $\HH^m(L(B^k)) = \omega_m \sqrt{\det(LL^T)}$.
+\end{lemma}
+
+\begin{proof}
+Let $L=U\Sigma V^T$ be a singular value decomposition of $L$, where
+$U\in O(m)$, $V\in O(k)$, and
+$\Sigma=\operatorname{diag}(\sigma_1,\ldots,\sigma_m,0,\ldots,0)$.
+
+Since orthogonal transformations preserve Euclidean balls, we have
+$V^T B^k = B^k$. Since they also preserves $m$-dimensional volume, we
+have $\HH^m(L(B^k)) =
+\HH^m(\Sigma(B^k))$.
+
+%% The image $\Sigma(B^k)$ is the ellipsoid with semi-axes
+%% $\sigma_1,\ldots,\sigma_m$, whose volume is $\omega_m \prod_{i=1}^m
+%% \sigma_i$.
+\begin{sloppypar}
+Now $\Sigma(B^k)= \left\{ (\sigma_1x_1,\ldots,\sigma_mx_m):
+x_1^2+\cdots+x_k^2\le1 \right\}$.  Its image is precisely the
+ellipsoid $\left\{ y\in\mathbb{R}^m:
+\sum_{i=1}^m\frac{y_i^2}{\sigma_i^2}\le1 \right\}$, whose semi-axes
+are $\sigma_1,\ldots,\sigma_m$. Its volume is $\omega_m \prod_{i=1}^m
+\sigma_i$.
+\end{sloppypar}
+
+On the other hand, $L L^T = U \Sigma \Sigma^T U^T$. Hence $\det(L
+L^T)=\prod_{i=1}^m \sigma_i^2$.  Gathering all identities gives
+
+\begin{minipage}[b]{0.9\textwidth}
+\begin{align*}
+  \HH^m(L(B^k)) = \HH^m(\Sigma(B^k))
+  = \omega_m \prod_{i=1}^m \sigma_i = \omega_m \sqrt{\det(LL^T)}.
+\end{align*}
+\end{minipage}
+\qed
+\end{proof}
+
+\section{Geometric invariants for balls and half-balls}
+
+Here is an illustration of the geometric invariants $\bar{W}_{m}(k)$
+of the $k$-ball for different $k$ and $m$.  We also displays the
+values $\bar{W}^{1/2}_{m}(k)$ corresponding to the geometric
+invariants for the half ball of dimension $k$.
+\begin{center}
+\begin{tabular}{|c|ccccc|} \cline{2-6}
+  \multicolumn{1}{c}{$\bar{W}_{m}(k)$} & \multicolumn{5}{|c|}{$m$} \\ \cline{1-1}
+  $k$ & 0 & 1 & 2 & 3 & 4 \\ \cline{2-6}
+  0   & 1 &   &   &   &   \\
+  1   & 1 & 4 &   &   &   \\
+  2   & 1 & 8 & $\pi^2$  &   &   \\
+  3   & 1 & 12 & $3\pi^2$  & $\frac{16}{9}\pi^2$   &   \\
+  4   & 1 & 16 & $6\pi^2$  & $\frac{64}{9}\pi^2$   & $\frac{1}{4}\pi^2$  \\ \hline
+\end{tabular}
+\quad
+\begin{tabular}{|c|ccccc|} \cline{2-6}
+  \multicolumn{1}{c}{$\bar{W}^{1/2}_{m}(k)$} & \multicolumn{5}{|c|}{$m$} \\ \cline{1-1}
+  $k$ & 0 & 1 & 2 & 3 & 4 \\ \cline{2-6}
+  0   & 1 &   &   &   &   \\
+  1   & 1 & 1 &   &   &   \\
+  2   & 1 & 5 & $\frac{1}{4}\pi^2$  &   &   \\
+  3   & 1 & 9 & $\frac{3}{2}\pi^2$  & $\frac{4}{9}\pi^2$   &   \\
+  4   & 1 & 13 & $\frac{15}{4}\pi^2$  & $\frac{28}{9}\pi^2$   & $\frac{1}{16}\pi^2$  \\ \hline
+\end{tabular}
+\end{center}
