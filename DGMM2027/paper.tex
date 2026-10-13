@@ -42,9 +42,9 @@
 % experimental section (Sec.~\ref{sec:experiments}).
 \usepackage{pgf}
 \usepackage[strings]{underscore}
-\usepackage{tikz}
 \usepackage{array}
-\usetikzlibrary{calc}
+\usepackage{tikz}
+\usetikzlibrary{calc,arrows.meta}
 \usepackage{url}
 \usepackage{hyperref}
 \usepackage{xcolor}
@@ -120,6 +120,7 @@
 \newcommand{\Ge}{\ensuremath{\geqslant}}
 \newcommand{\RefTheorem}[1]{Theorem~\ref{#1}}
 \newcommand{\RefLemma}[1]{Lemma~\ref{#1}}
+\newcommand{\RefFigure}[1]{Figure~\ref{#1}}
 \newcommand{\Equ}[1]{(\ref{#1})}
 
 %------------------------------------------------
@@ -162,13 +163,14 @@
 %% or \MSC[2008] code \sep code (2000 is the default)
 \end{abstract}
 
-\input{./invariants.tex}
+\input{./introduction.tex}
+\input{./invariants_compact.tex}
 
 
 %%\FloatBarrier % avoid placing images after the references
 %%\raggedbottom
 \bibliographystyle{splncs04}
-%\bibliography{msbtanest}
+\bibliography{biblio}
 
 \appendix
 

@@ -51,15 +51,6 @@ discretization step, let $Q_h:= \left[-\frac{h}{2},
   \frac{h}{2}\right]^d$. The \emph{$h$-covering discretization of $X$}
 is $G_h(X) := \{ z \in h\Z^d~|~X \cap (z+Q_h) \neq \emptyset \}$, its
 \emph{$h$-voxelization} is $U_h(X) := \cup_{z \in G_h(X)} (z + Q_h)$.
-%%Finally we call \emph{expected $r$-local measure of a $k$-manifold}
-%%the quantity $W_m^k := \omega_m^2\binom{k}{m}r^{2m}$.
-
-%% We have immediately:
-%% \[
-%%     X\subset U_h(X)
-%%     \subset
-%%     X+\frac{\sqrt d}{2}h B^d.
-%% \]
 
 Our main result below states that the local measure of a digitized set
 depends essentially on the dimension of its underlying submanifold,
@@ -68,17 +59,50 @@ gridstep. This provides a tool for analyzing the local dimension of
 digital data.
 \begin{theorem}[Local approximation of $W_m$]
 \label{thm:main}
-For $p \in X$, $0 < m \Le k$, $\forall \alpha \in (0,1)$, there is a constant $C=C(d,k,m,\alpha)$ such that, if $r \Le \alpha\rho$ and $\frac{\sqrt d}{2}h \Le \alpha r$, then
-\begin{align*}
-  \left|W_m(U_h(X),p,r) - \omega_m^2\binom{k}{m}r^{2m} \right|
-  \Le  C \left( h\,r^{2m-1} + \frac{r^{2m+1}}{\rho} \right).
-\end{align*}
+For $p \in X$, $0 < m \Le k$, $\forall \alpha_0 \in (0,1)$, there are constants $C=C(d,k)$ and $C'=(d,k)$ such that, if $r \Le \alpha_0\rho$ and $h \Le C' r$, then
+\begin{align}\label{eq:main}
+  \left| \frac{1}{r^{2m}}W_m(U_h(X),p,r) - \omega_m^2\binom{k}{m} \right|
+  \Le  C \left( \frac{h}{r} + \frac{r}{\rho} \right).
+\end{align}
 \end{theorem}
-The proof relies on three lemmas: the first one controls the error
-coming from the discretization, the second one relates the local
-measures on $X$ to the same local measures on the tangent plane, the
-third one shows that this value is independent of the orientation of
-the tangent plane.
+\begin{proof}
+  The proof relies on three theorems proved afterwards:
+  \RefTheorem{thm:ball-invariants} shows that $W_m(B^k)$ is a constant
+  depending on $k$ and $m$, and independent of the orientation or
+  position of the unit $k$-ball $B^k$ in
+  $\R^d$. \RefTheorem{thm:stabilite-projections} proves that both
+  measures $V_j(X \cap B(p,r))$ and $W_m(X \cap B(p,r))$ are stable
+  with respect to controlled variations of $X$. Finally
+  \RefTheorem{thm:cubical-admissible-set} establishes that the
+  $h$-voxelization of $X$ is an admissible controlled variation of
+  $X$.
+
+  More precisely, let $X_r:= X \cap B(p,r)$ and $Y_h:=U_h(X) \cap
+  B(p,r)$. From \RefTheorem{thm:cubical-admissible-set}, we have $X_r
+  \subset Y_h \subset (X_r)_{\varepsilon_h}$, with
+  $\varepsilon_h=C\sqrt d\,h$. Applying \eqref{eq:stabilite-W} of
+  \RefTheorem{thm:stabilite-projections} with $Y=Y_h$ and
+  $\varepsilon=\varepsilon_h$ induces:
+  \begin{equation*}
+    \left| W_m(U_h(X),p,r)-\omega_m^2\binom{k}{m}r^{2m} \right|
+    \Le C r^{2m-1} \left( \sqrt{d} h+\frac{r^2}{\rho} \right).
+  \end{equation*}
+  Dividing by $r^{2m}$ gives the result.
+  \qed
+\end{proof}
+Asymptotically, this suggests a radius $r=\Theta(\sqrt{h})$ to
+minimize the error in \eqref{eq:main}. This result implies that the
+rescaled measure $W_m$ characterizes the local dimension of the
+underlying digitized manifold, independently of its orientation or its
+embedding space.
+
+Note that both measures $V_J$ and $W_m$ are also stable with respect
+to small perturbations in the position of $p$. The result above shows
+that tangent perturbations do not change the value $W_m$. Although we
+do not prove it here due to space reasons, a perturbation of $\nu$ in
+the normal direction induces an error in $W_m$ of $O(\nu^2
+r^{2m-2}+\nu r^{2m} / \rho)$. The following subsections give the
+proofs of the theorems mentioned above.
 
 \subsection{Local measures of $k$-balls are invariants}
 
@@ -100,14 +124,6 @@ A=\mathrm{Id}_k$ (so $k \le d$).  For every integer $m$, $0\le m\le k$, one has
   \sum_{J \in \mathcal{I}_m} \HH^m(\pi_J(B^k))^2 = \omega_m^2 \binom{k}{m}.
 \end{equation}
 The same sum is obviously null if $k < m \Le d$.
-%% \end{minipage}
-%% \hfill
-%% \begin{minipage}{0.45\textwidth}
-%% \begin{equation}
-%%   \label{eq:pythagorean-ball-2}
-%%   W_m(A(rB^k),0,r) = \omega_m^2 \binom{k}{m} r^{2m}.
-%% \end{equation}
-%% \end{minipage}
 \end{theorem}
 \begin{proof}
 For every subset $J \in \mathcal{I}_m$, Lemma~\ref{lem:svd} (see appendix) applied
@@ -191,7 +207,13 @@ expliciting their values in low dimension).
 \subsection{Local measures are stable in a neighborhood of a submanifold}
 
 For a positive value $\delta$, we use the notation $(Y)_\delta$ to
-denote the dilation of $Y$ with the ball of radius $\delta$. The tangent plane $T_p X$ of $X$ at $p$ is simply written $T$.
+denote the dilation of $Y$ with the ball of radius $\delta$. The
+tangent plane $T_p X$ of $X$ at $p$ is simply written $T$.
+
+\begin{figure}
+  \input{./local_stability.tikz}
+\end{figure}
+
 \begin{theorem}%%[Stabilité des volumes projetés au voisinage d'une sous-variété]
 \label{thm:stabilite-projections}
 Under the hypotheses of \RefTheorem{thm:main}, there exists a constant
@@ -476,6 +498,7 @@ then for any $J\in \mathcal{I}_m$ it holds:
         \]
         Combining the two above relations prove \eqref{eq:stabilite-W}.
   \end{enumerate}
+  \qed
 \end{proof}
 
 
@@ -552,89 +575,7 @@ d\,h$.  Combining this with \eqref{eq:y-x-cube} yields
 $\operatorname{dist}(y,X_r) \Le |y-x_*| \Le |y-x|+|x-x_*| \Le
 (1+C_1)\sqrt d\,h$.  Choosing $C=1+C_1$ and setting $\varepsilon_h :=
 C\sqrt d\,h$, we get $y\in(X_r)_{\varepsilon_h}$.  Since $y\in Y_h$
-was arbitrary, $Y_h\subset(X_r)_{\varepsilon_h}$ and we conclude.
+was arbitrary, $Y_h\subset(X_r)_{\varepsilon_h}$ and we conclude. \qed
 \end{proof}
+Note that as $r/\rho$ tends to $0$, $\varepsilon_h$ tends to $2\sqrt{d}h$.
 
-
-
-%% We have to take care of the fact that the intersection of $U_h(X)$
-%% with the local ball may contain points of $X$ slightly away from this
-%% ball.
-
-%% \begin{lemma}%%[Erreur de discrétisation]
-%% \label{lem:discretization}
-%% Under the hypotheses of \RefTheorem{thm:main}, there is a constant $C=C(d,k,m,\alpha)$ such that, for all $J \in \mathcal{I}_m$:
-%% \begin{align*}
-%%   \left|V_J(U_h(X),p,r)-V_J(X,p,r)\right| & \Le C h r^{m-1},\\
-%% %%  && \quad \text{and} \quad &
-%%   \left|W_m(U_h(X),p,r)-W_m(X,p,r)\right| & \Le C h r^{2m-1}.
-%% \end{align*}
-%% \end{lemma}
-
-%% \begin{proof}
-%%   Let $\eps_h=\frac{\sqrt d}{2}h$. It is clear that $X\subset
-%%   U_h(X)\subset X+\eps_h B^d$ (for $+$ is the Minkowski sum).  These
-%%   inclusions hold after intersection with $B(p,r)$ and after
-%%   projection, so:
-%%   \begin{align*}
-%%     \pi_J(X\cap B(p,r))
-%%     \subset
-%%     \pi_J(U_h(X)\cap B(p,r))
-%%     \subset
-%%     \pi_J(X\cap B(p,r+\eps_h))
-%%     +
-%%     \eps_h B^m,
-%%   \end{align*}
-%% where $B^m$ is the unit $m$-dimensional ball centered on $0$.  Since
-%% $r \Le \alpha\rho$ (smaller than the reach), the submanifold $X$ is a
-%% $C^1$ graph $f$ over the tangent plane $T=T_p X$ within $B(p,2r)$,
-%% with bounded value $\|f\| \Le C_\alpha\frac{r^2}{\rho}$ and bounded
-%% differential $\|Df\| \Le C'_\alpha\frac r\rho$.
-
-%% En particulier, les projections
-%% \[
-%%     \pi_J(X\cap B(p,r+\eps_h))
-%% \]
-%% possèdent un contenu de Minkowski $(m-1)$ uniformément contrôlé par
-%% \[
-%%     C_{d,k,m,\alpha}r^{m-1}.
-%% \]
-%% Le passage de $r$ à $r+\eps_h$ ajoute donc un volume
-%% \[
-%%     O_{d,k,m,\alpha}
-%%     \left(r^{m-1}\eps_h\right),
-%% \]
-%% et le voisinage $\eps_h B^m$ ajoute un terme de même ordre.
-
-%% Ainsi
-%% \[
-%%     \left|
-%%     V_J(U_h(X),r)-V_J(X,r)
-%%     \right|
-%%     \Le
-%%     C_{d,k,m,\alpha}
-%%     r^{m-1}\eps_h
-%%     \Le
-%%     C_{d,k,m,\alpha}hr^{m-1}.
-%% \]
-
-%% Enfin, toutes les quantités $V_J(X,r)$ et $V_J(U_h(X),r)$ sont
-%% $O(r^m)$. Donc
-%% \[
-%% \begin{aligned}
-%% \left|
-%% V_J(U_h,r)^2-V_J(X,r)^2
-%% \right|
-%% &\Le
-%% \left|V_J(U_h,r)-V_J(X,r)\right|
-%% \\
-%% &\qquad\qquad\times
-%% \left(V_J(U_h,r)+V_J(X,r)\right)
-%% \\
-%% &\Le
-%% C h r^{2m-1}.
-%% \end{aligned}
-%% \]
-%% La sommation sur les
-%% $\binom dm$ ensembles $J$ donne le résultat.
-%% \end{proof}

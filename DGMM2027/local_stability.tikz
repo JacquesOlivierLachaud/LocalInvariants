@@ -1,0 +1,163 @@
+
+\def\Angle{-28}
+\def\Curvature{0.24}
+\def\Radius{2.05}
+\def\Mesh{0.30}
+%\def\Eta{0.15} % Boundary-layer half-width is 2\eta
+\def\Px{0}
+\def\Py{1.65}
+\def\Shift{0.75}
+\def\Epsilon{1.5*\Mesh}
+%\def\Eta{\Epsilon+\Radius*\Radius*\Curvature}
+\def\Eta{0.2}
+
+\pgfmathsetmacro{\ct}{cos(\Angle)}
+\pgfmathsetmacro{\st}{sin(\Angle)}
+\pgfmathsetmacro{\umin}{-2.9}
+\pgfmathsetmacro{\umax}{2.9}
+\pgfmathsetmacro{\uX}{0.9*\umax}
+\pgfmathsetmacro{\rr}{\Radius-0.18}
+% Endpoint of the curve inside the ball, computed numerically by bisection.
+\pgfmathsetmacro{\ub}{\Radius}
+\foreach \i in {1,...,25}{\pgfmathsetmacro{\ub}{0.5*(\ub+\Radius/sqrt(1+0.25*\Curvature*\Curvature*\ub*\ub))}}
+\pgfmathsetmacro{\leftX}{\Px-\ub*\ct-0.5*\Curvature*\ub*\ub*\st}
+\pgfmathsetmacro{\rightX}{\Px+\ub*\ct-0.5*\Curvature*\ub*\ub*\st}
+\pgfmathsetmacro{\ellX}{\Px-\Radius*\ct}
+\pgfmathsetmacro{\rX}{\Px+\Radius*\ct}
+\pgfmathsetmacro{\rminus}{\rr*\ct}
+%% \pgfmathsetmacro{\fleft}{\leftX-0.11}
+%% \pgfmathsetmacro{\fright}{\rightX+0.11}
+\pgfmathsetmacro{\fleft}{\leftX-0.6*\Mesh}
+\pgfmathsetmacro{\fright}{\rightX-0.1*\Mesh}
+\pgfmathsetmacro{\band}{2*\Eta}
+\tikzset{curve/.style={black,very thick}, tangent/.style={red!80!black,dashed,thick}, ball/.style={blue!75!black,dashed,thick}, guide/.style={gray!65,densely dotted}, axis/.style={-Latex,thin}}
+\begin{tikzpicture}[scale=1]
+%%\foreach \shift/\panel in {0/{(a) Local projections},8.2/{(b) Homotopy}}{
+\foreach \shift in {0,6.2}{
+\begin{scope}[xshift=\shift cm]
+  \draw[axis] (-2.6,0)--(2.75,0) node[right] {$x$};
+  \draw[axis] (-2.5,-0.2)--(-2.5,3.5) node[above] {$y$};
+  %\node[anchor=west,font=\bfseries] at (-3,4.75) {\panel};
+  \draw[ball] (\Px,\Py) circle[radius=\Radius];
+  \node[blue!70!black] at (1.65,3.55) {$B(p,r)$};
+  % Voisinage epsilon de X ∩ B(p,r), tronqué par B(p,r)
+  \draw[tangent] ({\Px+\umin*\ct},{\Py+\umin*\st})--({\Px+\umax*\ct},{\Py+\umax*\st});
+  \draw[curve,domain=\umin:\umax,samples=100,smooth,variable=\u] plot ({\Px+\u*\ct-0.5*\Curvature*\u*\u*\st},{\Py+\u*\st+0.5*\Curvature*\u*\u*\ct});
+  \node[anchor=south] at ({\Px+\uX*\ct-0.5*\Curvature*\uX*\uX*\st},{\Py+\uX*\st+0.5*\Curvature*\uX*\uX*\ct}) {$X$};
+  \fill (\Px,\Py) circle (1.8pt) node[above right] {$p$};
+  \node[red!75!black] at (2.45,0.72) {$T_pX$};
+\end{scope}
+}
+% Voxel squares: a grid-based approximation, clipped visually by the ball.
+\begin{scope}
+\clip (\Px,\Py) circle[radius=\Radius];
+\foreach \i in {-10,...,10}{
+ \foreach \j in {-4,...,16}{
+  \pgfmathsetmacro{\xx}{(\i+0.5)*\Mesh}
+  \pgfmathsetmacro{\yy}{(\j+0.5)*\Mesh}
+  \pgfmathsetmacro{\uu}{(\xx-\Px)*\ct+(\yy-\Py)*\st}
+  \pgfmathsetmacro{\vv}{-(\xx-\Px)*\st+(\yy-\Py)*\ct}
+  \pgfmathsetmacro{\distance}{abs(\vv-0.5*\Curvature*\uu*\uu)}
+  \ifdim\distance pt<0.22pt
+    \filldraw[fill=blue!25,draw=blue!40,line width=.18pt] (\i*\Mesh,\j*\Mesh) rectangle ++(\Mesh,\Mesh);
+  \fi
+ }
+}
+\end{scope}
+% Redraw curve and tangent for clarity
+\draw[tangent] ({\Px+\umin*\ct},{\Py+\umin*\st})--({\Px+\umax*\ct},{\Py+\umax*\st});
+\draw[curve,domain=\umin:\umax,samples=100,variable=\u] plot ({\Px+\u*\ct-0.5*\Curvature*\u*\u*\st},{\Py+\u*\st+0.5*\Curvature*\u*\u*\ct});
+\fill (\Px,\Py) circle (1.8pt);
+
+% Plot dilated set
+\begin{scope}
+  \clip (\Px,\Py) circle (\Radius);
+  \draw[
+    magenta,
+    opacity=0.18,
+    line width=2*\Epsilon cm,
+    line cap=round,
+    line join=round
+  ]
+  plot[domain=\umin:\umax, samples=200, variable=\u]
+    ({\Px+\u*cos(\Angle)-0.5*\Curvature*\u*\u*sin(\Angle)},
+     {\Py+\u*sin(\Angle)+0.5*\Curvature*\u*\u*cos(\Angle)});
+\end{scope}
+
+% Projected intervals: E tangent disk, F curve projection, blue enlarged voxel envelope.
+\draw[guide] (\ellX,\Py-\Radius*\st)--(\ellX,-1.1+\Shift);
+\draw[guide] (\rX,\Py+\Radius*\st)--(\rX,-1.1+\Shift);
+\draw[guide] (\fleft,-1.1+\Shift)--(\fleft,\Py-\Radius*\st+0.5*\Mesh);
+\draw[guide] (\fright,-1.1+\Shift)--(\fright,\Py+\Radius*\st+1.7*\Mesh);
+\draw[red!75!black,line width=3pt,opacity=.65] (\ellX,-.35+\Shift)--(\rX,-.35+\Shift);
+\node[red!75!black,left,font=\scriptsize] at (\ellX,-.33+\Shift) {$\mathcal E_J$};
+\draw[blue!75!black,line width=3pt,opacity=.65] (\fleft,-.6+\Shift)--(\fright,-.6+\Shift);
+\node[blue!75!black,left,font=\scriptsize] at (\fleft,-0.6+\Shift) {$\mathcal F_J$};
+% Boundary of E_J thickened by 2 eta: two neighborhoods of its endpoints.
+\foreach \edge in {\ellX,\rX}{
+  \draw[green!45!black,opacity=.48,line width=3pt,opacity=.65] ({\edge-\band},-1.1+\Shift) -- ({\edge+\band},-1.1+\Shift);
+  %%\fill[green!45!black,opacity=.48] ({\edge-\band},-1.25) rectangle ({\edge+\band},-1.15);
+  %%\draw[green!45!black,thin] ({\edge-\band},-1.75) rectangle ({\edge+\band},-1.52);
+}
+\node[green!35!black,font=\scriptsize,fill=white] at (0.5*\ellX+0.5*\rX,-1.1+\Shift)
+ {$(\partial\mathcal E_J)_{2\eta}$};
+% Symmetric difference: pieces of E_J not in F_J and F_J not in E_J.
+% These are calculated from the same endpoints used for the intervals above.
+\pgfmathsetmacro{\missingLeft}{max(0,\fleft-\ellX)}
+\pgfmathsetmacro{\extraLeft}{max(0,\ellX-\fleft)}
+\pgfmathsetmacro{\missingRight}{max(0,\rX-\fright)}
+\pgfmathsetmacro{\extraRight}{max(0,\fright-\rX)}
+\ifdim\missingLeft pt>0pt
+ \draw[orange!85,line width=3pt,opacity=.65] (\ellX,-0.85+\Shift) -- (\fleft,-0.85+\Shift);
+% \fill[orange!85] (\ellX,-1.0) rectangle (\fleft,-0.89);
+\fi
+\ifdim\extraLeft pt>0pt
+ \draw[orange!85,line width=3pt,opacity=.65] (\fleft,-0.85+\Shift) -- (\ellX,-0.85+\Shift);
+% \fill[orange!85] (\fleft,-1.0) rectangle (\ellX,-0.89);
+\fi
+\ifdim\missingRight pt>0pt
+ \draw[orange!85,line width=3pt,opacity=.65] (\fright,-0.85+\Shift) -- (\rX,-0.85+\Shift);
+%% \fill[orange!85] (\fright,-1.0) rectangle (\rX,-0.89);
+\fi
+\ifdim\extraRight pt>0pt
+ \draw[orange!85,line width=3pt,opacity=.65] (\rX,-0.85+\Shift) -- (\fright,-0.85+\Shift);
+% \fill[orange!85] (\rX,-1.0) rectangle (\fright,-0.89);
+\fi
+\node[orange!75!black,font=\scriptsize] at (0.5*\ellX+0.5*\rX,-0.87+\Shift)
+ {$\mathcal E_J\triangle\mathcal F_J$};
+%% \node[anchor=west,font=\scriptsize] at (-2.9,-2.15)
+%%  {$\mathcal E_J\triangle\mathcal F_J\subset(\partial\mathcal E_J)_{2\eta}$};
+% Second panel: homotopy curves use SAME angle and curvature, all tangent at p.
+\begin{scope}[xshift=6.2cm]
+\foreach \t in {0.25,0.5,0.75}{
+\draw[gray!70,line width=.9pt,domain=-\rr:\rr,samples=70,variable=\u] plot ({\Px+\u*\ct-\t*0.5*\Curvature*\u*\u*\st},{\Py+\u*\st+\t*0.5*\Curvature*\u*\u*\ct});
+}
+\draw[very thick,orange!85!black,domain=-\rr:\rr,samples=70,variable=\u] plot ({\Px+\u*\ct-0.5*\Curvature*\u*\u*\st},{\Py+\u*\st+0.5*\Curvature*\u*\u*\ct});
+\draw[very thick,red!70!black] ({\Px-\rr*\ct},{\Py-\rr*\st})--({\Px+\rr*\ct},{\Py+\rr*\st});
+\node[anchor=west,fill=white,inner sep=1pt,font=\small] at (-2.3,.25) {$G_{J,t}(u)=p_x+u\cos\theta-tf(u)\sin\theta$};
+\node[gray!70!black] at (2.0,3.1) {$0<t<1$};
+\node[orange!80!black] at (2.1,2.8) {$t=1$};
+\node[red!75!black] at (2.1,2.5) {$t=0$};
+
+% Intervals
+% Projection direction
+\draw[-Latex,gray!70] (\Px,0.8*\Py)--(\Px,0.5*\Py) node[midway,right,font=\scriptsize] {$\pi_J$};
+%\node[anchor=west,font=\scriptsize] at (-2.95,-0.40) {$G_{J,t}(u)=p_x+u\cos\theta-tf(u)\sin\theta$};
+% Each interval has endpoints G_{J,t}(-r_-) and G_{J,t}(r_-).
+% Vertical offsets are diagrammatic, not part of the codomain.
+\foreach \t/\yy/\col in {0/0/red!75!black,0.25/-0.1/gray!65,0.5/-0.2/gray!65,0.75/-0.3/gray!65,1/-0.4/orange!85!black}{
+  \pgfmathsetmacro{\aa}{\Px-\rr*\ct-\t*0.5*\Curvature*\rr*\rr*\st}
+  \pgfmathsetmacro{\bb}{\Px+\rr*\ct-\t*0.5*\Curvature*\rr*\rr*\st}
+  \draw[\col,line width=2.6pt,line cap=round] (\aa,\yy)--(\bb,\yy);
+  \fill[\col] (\aa,\yy) circle (1.5pt) (\bb,\yy) circle (1.5pt);
+}
+\node[anchor=east,font=\scriptsize,red!75!black] at (-1.6,0) {$t=0$};
+\node[anchor=east,font=\scriptsize,gray!65] at (-1.6,-0.2) {$0<t<1$};
+\node[anchor=east,font=\scriptsize,orange!85!black] at (-1.6,-0.4) {$t=1$};
+%% \node[anchor=north,font=\scriptsize] at (0,-2.30)
+%%  {$G_{J,t}(B_{L_J}(0,r_-))\subset E_J\simeq\mathbf R$};
+%% \node[anchor=north,font=\tiny,gray!70!black] at (0,-2.62)
+%%  {Vertical offsets indicate $t$ only; all images lie on the $x$-axis.};
+
+\end{scope}
+\end{tikzpicture}
