@@ -450,104 +450,195 @@ which proves \eqref{eq:stabilite-W}.
 
 \subsection{Discretization error}
 
-We now show that the $h$-voxelization of $X$, restricted to
-$B(p,r)$, satisfies the hypotheses of the previous stability theorem.
-The only geometric ingredient is the following elementary estimate on
-thin annuli of $X$.
+We now show that the $h$-voxelization of $X$, restricted to $B(p,r)$,
+satisfies the hypotheses of the previous stability theorem.  The only
+geometric ingredient is the following elementary estimate on thin
+annuli of $X$. In this section, let $X\subset\mathbb R^d$ be a closed
+$C^{1,1}$ submanifold without boundary, with
+$\operatorname{reach}(X)\ge\rho>0$.
+
 
 \begin{lemma}[Radial annulus estimate]
-\label{lem:radial-annulus}
-There exist constants $\alpha_0=\alpha_0(d,k)>0$ and $C>0$ such that,
-if $0<r\Le\alpha_0\rho$, $0\Le s\Le\sqrt d\,r$, and
-$x\in X$ satisfies
-\[
- r\Le |x-p|\Le r+s,
-\]
-then
-\begin{equation}
-\label{eq:radial-annulus}
- \operatorname{dist}\bigl(x,X\cap B(p,r)\bigr)
- \Le C\bigl(|x-p|-r\bigr)
- \Le Cs.
+  \label{lem:radial-annulus}
+For any $p,x\in X$ and $0<r<|x-p|=s<\rho$, one has
+\begin{equation}\label{eq:radial-annulus}
+\operatorname{dist}\bigl(x,X\cap B(p,r)\bigr)
+\le
+\frac{s-r}{\sqrt{1-s^2/(4\rho^2)}}
+\le \frac{2}{\sqrt3}(s-r).
 \end{equation}
 \end{lemma}
 \begin{proof}
-Choose $\alpha_0$ sufficiently small so that the graph representation
-of $X$ over $T_pX$ is valid in $B(p,(1+\sqrt d)r)$. Write
-\(x=\Phi(u)=p+u+f(u),\)
-with
-\(\|Df(v)\|\Le C\frac{|v|}{\rho}.\)
-Consider the radial graph curve
-\(\gamma(t):=\Phi(tu),\qquad 0\Le t\Le1,\)
-and set $g(t):=|\gamma(t)-p|$. Since $g(0)=0$ and $g(1)\Ge r$, there
-exists $t_*\in[0,1]$ such that $g(t_*)=r$. Set
-$x_*:=\gamma(t_*)\in X\cap B(p,r)$.
+Let $g:X\setminus\{p\}\to\mathbb R$ be defined by
+$g(z)=|z-p|$. The angle estimate of Federer
+(see also \cite[Lemma~9]{lieutier2024manifolds})
+gives, for $|z-p|<\rho$,
+$\|\operatorname{proj}_{(T_zX)^\perp}(z-p)\|
+\le |z-p|^2/(2\rho)$.
+Consequently,
+$\|\nabla_X g(z)\|
+=\|\operatorname{proj}_{T_zX}(z-p)\|/|z-p|
+\ge\sqrt{1-|z-p|^2/(4\rho^2)}$.
 
-Now
-\(\gamma'(t)=u+Df(tu)[u].\)
-Since $|u|\Le|x-p|\Le(1+\sqrt d)r$, decreasing $\alpha_0$ if
-necessary gives
-\(|\gamma'(t)|\Le C_1|u|.\)
-Moreover,
-\(g'(t) =\frac{\langle\gamma(t)-p,\gamma'(t)\rangle} {|\gamma(t)-p|} =\frac{t|u|^2+\langle f(tu),Df(tu)[u]\rangle} {\sqrt{t^2|u|^2+|f(tu)|^2}}.\)
-Using the standard graph estimates and again taking $\alpha_0$
-sufficiently small, we obtain
-\(g'(t)\Ge c|u|\)
-for $t\in[t_*,1]$, with $c>0$ independent of $p,r$ and $x$.
-Therefore
-\(|x-p|-r =\int_{t_*}^1g'(t)\,dt \Ge c|u|(1-t_*),\)
-whereas
-\(|x-x_*| \Le\int_{t_*}^1|\gamma'(t)|\,dt \Le C_1|u|(1-t_*).\)
-Hence
-\(\operatorname{dist}(x,X\cap B(p,r)) \Le |x-x_*| \Le \frac{C_1}{c}\bigl(|x-p|-r\bigr),\)
-which proves the claim.
+
+Starting at $x$, follow the unit-speed descending
+gradient field $-\nabla_Xg/\|\nabla_Xg\|$ until the
+first point $x_*$ with $g(x_*)=r$.
+Along this unit-speed curve $\gamma:[0,t_*]\to X$,
+the distance to $p$ decreases and
+$-\frac{d}{dt}g(\gamma(t))
+=\|\nabla_Xg(\gamma(t))\|
+\ge c_s:=\sqrt{1-s^2/(4\rho^2)}$.
+Integrating from $0$ to $t_*$ yields
+$s-r\ge c_s t_*$.
+Since $\gamma$ has unit speed,
+$\operatorname{Length}(\gamma)=t_*
+\le(s-r)/c_s$.
+As $x_*=\gamma(t_*)\in X\cap B(p,r)$,
+the conclusion follows.
+%% Along this curve $\gamma$, the distance to $p$
+%% decreases and
+%% $-\frac{d}{dt}g(\gamma(t))
+%% =\|\nabla_Xg(\gamma(t))\|
+%% \ge\sqrt{1-s^2/(4\rho^2)}$.
+%% Thus the length of $\gamma$ is at most
+%% $(s-r)/\sqrt{1-s^2/(4\rho^2)}$.
+%% Since $x_*\in X\cap B(p,r)$,
+%% $\operatorname{dist}(x,X\cap B(p,r))
+%% \le |x-x_*|\le\operatorname{Length}(\gamma)$,
+%% which proves the claim.
 \qed
 \end{proof}
 
-\begin{theorem}[Cubical approximation within a ball]
-\label{thm:cubical-admissible-set}
-Let
-\[
- X_r:=X\cap B(p,r),\qquad
- Y_h:=U_h(X)\cap B(p,r).
-\]
-There exist constants $\alpha_0=\alpha_0(d,k)>0$ and $C=C(d,k)>0$
-such that, if
-\[
- 0<r\Le\alpha_0\rho,
- \qquad
- 0<h\Le r,
-\]
+
+%% \begin{lemma}[Radial annulus estimate]
+%% \label{lem:radial-annulus}
+%% There exist constants $\alpha_0=\alpha_0(d,k)>0$ and $C>0$ such that,
+%% if $0<r\Le\alpha_0\rho$, $0\Le s\Le\sqrt d\,r$, and
+%% $x\in X$ satisfies
+%% \[
+%%  r\Le |x-p|\Le r+s,
+%% \]
+%% then
+%% \begin{equation}
+%% \label{eq:radial-annulus}
+%%  \operatorname{dist}\bigl(x,X\cap B(p,r)\bigr)
+%%  \Le C\bigl(|x-p|-r\bigr)
+%%  \Le Cs.
+%% \end{equation}
+%% \end{lemma}
+%% \begin{proof}
+%% Choose $\alpha_0$ sufficiently small so that the graph representation
+%% of $X$ over $T_pX$ is valid in $B(p,(1+\sqrt d)r)$. Write
+%% \(x=\Phi(u)=p+u+f(u),\)
+%% with
+%% \(\|Df(v)\|\Le C\frac{|v|}{\rho}.\)
+%% Consider the radial graph curve
+%% \(\gamma(t):=\Phi(tu),\qquad 0\Le t\Le1,\)
+%% and set $g(t):=|\gamma(t)-p|$. Since $g(0)=0$ and $g(1)\Ge r$, there
+%% exists $t_*\in[0,1]$ such that $g(t_*)=r$. Set
+%% $x_*:=\gamma(t_*)\in X\cap B(p,r)$.
+
+%% Now
+%% \(\gamma'(t)=u+Df(tu)[u].\)
+%% Since $|u|\Le|x-p|\Le(1+\sqrt d)r$, decreasing $\alpha_0$ if
+%% necessary gives
+%% \(|\gamma'(t)|\Le C_1|u|.\)
+%% Moreover,
+%% \(g'(t) =\frac{\langle\gamma(t)-p,\gamma'(t)\rangle} {|\gamma(t)-p|} =\frac{t|u|^2+\langle f(tu),Df(tu)[u]\rangle} {\sqrt{t^2|u|^2+|f(tu)|^2}}.\)
+%% Using the standard graph estimates and again taking $\alpha_0$
+%% sufficiently small, we obtain
+%% \(g'(t)\Ge c|u|\)
+%% for $t\in[t_*,1]$, with $c>0$ independent of $p,r$ and $x$.
+%% Therefore
+%% \(|x-p|-r =\int_{t_*}^1g'(t)\,dt \Ge c|u|(1-t_*),\)
+%% whereas
+%% \(|x-x_*| \Le\int_{t_*}^1|\gamma'(t)|\,dt \Le C_1|u|(1-t_*).\)
+%% Hence
+%% \(\operatorname{dist}(x,X\cap B(p,r)) \Le |x-x_*| \Le \frac{C_1}{c}\bigl(|x-p|-r\bigr),\)
+%% which proves the claim.
+%% \qed
+%% \end{proof}
+
+\begin{lemma}[Local cubical approximation]
+  \label{thm:cubical-admissible-set}
+%% Let $X\subset\mathbb R^d$ be a closed $C^{1,1}$
+%% submanifold without boundary, with
+%% $\operatorname{reach}(X)\ge\rho>0$.
+Let $U_h(X)$ be the union of all closed cubes of the
+standard cubical grid of mesh size $h$ that intersect $X$.
+For $p\in X$, set $X_r=X\cap B(p,r)$ and
+$Y_h=U_h(X)\cap B(p,r)$.
+If
+\(
+    0<h\le r<\frac{\rho}{1+\sqrt d},
+\)
 then
-\begin{equation}
-\label{eq:cubical-admissible}
- \boxed{
- X_r\subset Y_h
- \subset (X_r)_{\varepsilon_h}\cap B(p,r),
- \qquad
- \varepsilon_h=C\sqrt d\,h.}
+\begin{equation}\label{eq:cubical-approximation}
+    X_r\subset Y_h
+    \subset (X_r)_{\varepsilon_h}\cap B(p,r),
+    \qquad
+    \varepsilon_h=
+    \left(1+\frac{2}{\sqrt3}\right)\sqrt d\,h.
 \end{equation}
-\end{theorem}
-\begin{proof}
-The first inclusion is immediate since the voxelization covers $X$.
-Moreover, $Y_h\subset B(p,r)$ by definition.
+\end{lemma}
 
-Let $y\in Y_h$. Then $y$ belongs to a voxel $Q=z+Q_h$ such that
-$Q\cap X\ne\emptyset$. Choose $x\in Q\cap X$. Since $Q$ has diameter
-$\sqrt d\,h$,
-\begin{equation}
-\label{eq:y-x-cube}
- |y-x|\Le\sqrt d\,h.
-\end{equation}
-Also,
-\(|x-p|\Le |x-y|+|y-p|\Le r+\sqrt d\,h.\)
-If $x\in X_r$, then
-$\operatorname{dist}(y,X_r)\Le\sqrt d\,h$. Otherwise,
-\RefLemma{lem:radial-annulus}, applied with $s=\sqrt d\,h$, gives
-\(\operatorname{dist}(x,X_r)\Le C\sqrt d\,h.\)
-Thus in all cases
-\(\operatorname{dist}(y,X_r) \Le |y-x|+\operatorname{dist}(x,X_r) \Le C'\sqrt d\,h.\)
-Absorbing $C'$ into $C$ proves
-\(Y_h\subset(X_r)_{\varepsilon_h}\cap B(p,r), \qquad \varepsilon_h=C\sqrt d\,h.\)
-\qed
+\begin{proof}
+The first inclusion follows from $X\subset U_h(X)$ (it is a covering
+of $X$). For the second inclusion, for any $y\in Y_h$, choose a cube
+containing $y$ and intersecting $X$, and let $x\in X$ belong to that
+cube. Then $|x-y|\le\sqrt d\,h$ and $|x-p|\le r+\sqrt d\,h\le(1+\sqrt
+d)r<\rho$.  If $x\in X_r$, then $\operatorname{dist}(y,X_r)\le\sqrt
+d\,h$.  Otherwise, the radial annulus estimate
+(Lemma~\ref{lem:radial-annulus}) gives $\operatorname{dist}(x,X_r)
+\le\frac{2}{\sqrt3}(|x-p|-r) \le\frac{2}{\sqrt3}\sqrt d\,h$.
+Consequently, $\operatorname{dist}(y,X_r) \le
+|y-x|+\operatorname{dist}(x,X_r) \le(1+2/\sqrt3)\sqrt d\,h$, which
+concludes. \qed
 \end{proof}
+
+
+%% \begin{theorem}[Local cubical approximation]
+%% \label{thm:cubical-admissible-set}
+%% Let $X_r:=X\cap B(p,r), Y_h:=U_h(X)\cap B(p,r)$.
+%% There exist a constant $C=C(d,k)>0$
+%% such that, if
+%% %% There exist constants $\alpha_0=\alpha_0(d,k)>0$ and $C=C(d,k)>0$
+%% %% such that, if
+%% \(
+%%  0< r \Le \frac{1}{1+\sqrt{d}}\rho, %% \alpha_0\rho,
+%%  0<h\Le r,
+%% \)
+%% then
+%% \begin{equation}
+%% \label{eq:cubical-admissible}
+%%  \boxed{
+%%  X_r\subset Y_h
+%%  \subset (X_r)_{\varepsilon_h}\cap B(p,r),
+%%  \qquad
+%%  \varepsilon_h=C\sqrt d\,h.}
+%% \end{equation}
+%% \end{theorem}
+%% \begin{proof}
+%% The first inclusion is immediate since the voxelization covers $X$.
+%% Moreover, $Y_h\subset B(p,r)$ by definition.
+
+%% Let $y\in Y_h$. Then $y$ belongs to a voxel $Q=z+Q_h$ such that
+%% $Q\cap X\ne\emptyset$. Choose $x\in Q\cap X$. Since $Q$ has diameter
+%% $\sqrt d\,h$,
+%% \begin{equation}
+%% \label{eq:y-x-cube}
+%%  |y-x|\Le\sqrt d\,h.
+%% \end{equation}
+%% Also,
+%% \(|x-p|\Le |x-y|+|y-p|\Le r+\sqrt d\,h.\)
+%% If $x\in X_r$, then
+%% $\operatorname{dist}(y,X_r)\Le\sqrt d\,h$. Otherwise,
+%% \RefLemma{lem:radial-annulus}, applied with $s=\sqrt d\,h$, gives
+%% \(\operatorname{dist}(x,X_r)\Le C\sqrt d\,h.\)
+%% Thus in all cases
+%% \(\operatorname{dist}(y,X_r) \Le |y-x|+\operatorname{dist}(x,X_r) \Le C'\sqrt d\,h.\)
+%% Absorbing $C'$ into $C$ proves
+%% \(Y_h\subset(X_r)_{\varepsilon_h}\cap B(p,r), \qquad \varepsilon_h=C\sqrt d\,h.\)
+%% \qed
+%% \end{proof}
