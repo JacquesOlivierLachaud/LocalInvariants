@@ -1,0 +1,177 @@
+% for h = 0.5
+\tikzset{math3d/.style={x= {(-0.39cm,-0.05cm)}, z={(0cm,0.4cm)},y={(0.2cm,-0.2cm)}}}
+\tikzset{guide/.style={gray!65,densely dotted}}
+
+\NewDocumentCommand{\DrawVoxel}{m m m m O{1.0}}{%
+  \draw[fill=#4!10!white,draw=black,thin,opacity=#5] (#1-0.5,#2-0.5,#3+0.5) -- (#1+0.5,#2-0.5,#3+0.5) -- (#1+0.5,#2+0.5,#3+0.5) -- (#1-0.5,#2+0.5,#3+0.5) -- cycle;
+  \draw[fill=#4!30!white,draw=black,thin,opacity=#5] (#1+0.5,#2-0.5,#3-0.5) -- (#1+0.5,#2-0.5,#3+0.5) -- (#1+0.5,#2+0.5,#3+0.5) -- (#1+0.5,#2+0.5,#3-0.5) -- cycle;
+  \draw[fill=#4!40!white,draw=black,thin,opacity=#5] (#1-0.5,#2+0.5,#3-0.5) -- (#1+0.5,#2+0.5,#3-0.5) -- (#1+0.5,#2+0.5,#3+0.5) -- (#1-0.5,#2+0.5,#3+0.5) -- cycle;
+}
+\NewDocumentCommand{\DrawPoint}{m m m m O{1.0}}{%
+  \draw[fill=#4,draw=black,thin,opacity=#5] (#1,#2,#3) node {\color{#4!50!white}$\bullet$};
+}
+  
+%% \def\ProjX{-2.0}
+%% \def\ProjY{-4.0}
+%% \def\ProjZ{-2.0}
+\def\ProjX{0.0}
+\def\ProjY{0.0}
+\def\ProjZ{0.0}
+\NewDocumentCommand{\ProjectVoxel}{m m m m O{\ProjX} O{\ProjY} O{\ProjZ}}{%
+  \draw[fill=blue!#4!white,draw=black,thin] (#1-0.5,#2-0.5,#7) -- (#1+0.5,#2-0.5,#7) -- (#1+0.5,#2+0.5,#7) -- (#1-0.5,#2+0.5,#7) -- cycle;
+  \draw[fill=red!#4!white,draw=black,thin] (#5,#2-0.5,#3-0.5) -- (#5,#2-0.5,#3+0.5) -- (#5,#2+0.5,#3+0.5) -- (#5,#2+0.5,#3-0.5) -- cycle;
+  \draw[fill=green!#4!white,draw=black,thin] (#1-0.5,#6,#3-0.5) -- (#1+0.5,#6,#3-0.5) -- (#1+0.5,#6,#3+0.5) -- (#1-0.5,#6,#3+0.5) -- cycle;
+  \draw[fill=cyan!#4!white,draw=black,thin] (#1-0.5,#6,#7) -- (#1-0.5,#6+0.1,#7) -- (#1+0.5,#6+0.1,#7) -- (#1+0.5,#6,#7) -- (#1+0.5,#6,#7+0.1) -- (#1-0.5,#6,#7+0.1) --cycle;
+  \draw[fill=magenta!#4!white,draw=black,thin] (#5,#2-0.5,#7) -- (#5+0.1,#2-0.5,#7) -- (#5+0.1,#2+0.5,#7) -- (#5,#2+0.5,#7) -- (#5,#2+0.5,#7+0.1) -- (#5,#2-0.5,#7+0.1) --cycle;
+  \draw[fill=yellow!#4!white,draw=black,thin] (#5,#6,#3-0.5) -- (#5+0.1,#6,#3-0.5) -- (#5+0.1,#6,#3+0.5) -- (#5,#6,#3+0.5) -- (#5,#6+0.1,#3+0.5) -- (#5,#6+0.1,#3-0.5) --cycle;
+  \draw[guide] (#1-0.5,#6,#7) -- (#1-0.5,#2-0.5,#7);
+  \draw[guide] (#1+0.5,#6,#7) -- (#1+0.5,#2-0.5,#7);
+  \draw[guide] (#1-0.5,#6,#7) -- (#1-0.5,#6,#3-0.5);
+  \draw[guide] (#1+0.5,#6,#7) -- (#1+0.5,#6,#3-0.5);
+  \draw[guide] (#5,#2-0.5,#7) -- (#1-0.5,#2-0.5,#7);
+  \draw[guide] (#5,#2+0.5,#7) -- (#1-0.5,#2+0.5,#7);
+  \draw[guide] (#5,#2-0.5,#7) -- (#5,#2-0.5,#3-0.5);
+  \draw[guide] (#5,#2+0.5,#7) -- (#5,#2+0.5,#3-0.5);
+  \draw[guide] (#5,#6,#3-0.5) -- (#1-0.5,#6,#3-0.5);
+  \draw[guide] (#5,#6,#3+0.5) -- (#1-0.5,#6,#3+0.5);
+  \draw[guide] (#5,#6,#3-0.5) -- (#5,#2-0.5,#3-0.5);
+  \draw[guide] (#5,#6,#3+0.5) -- (#5,#2-0.5,#3+0.5);
+}
+%% \NewDocumentCommand{\ProjectVoxel}{m m m m O{\ProjX} O{\ProjY} O{\ProjZ}}{%
+%%   \draw[fill=#4!10!white,draw=black,thin] (#1-0.5,#2-0.5,#7) -- (#1+0.5,#2-0.5,#7) -- (#1+0.5,#2+0.5,#7) -- (#1-0.5,#2+0.5,#7) -- cycle;
+%%   \draw[fill=#4!30!white,draw=black,thin] (#5,#2-0.5,#3-0.5) -- (#5,#2-0.5,#3+0.5) -- (#5,#2+0.5,#3+0.5) -- (#5,#2+0.5,#3-0.5) -- cycle;
+%%   \draw[fill=#4!40!white,draw=black,thin] (#1-0.5,#6,#3-0.5) -- (#1+0.5,#6,#3-0.5) -- (#1+0.5,#6,#3+0.5) -- (#1-0.5,#6,#3+0.5) -- cycle;
+%% }
+
+\begin{tikzpicture}[math3d]
+  %%[x={(1cm,-.35cm)},y={(.9cm,.25cm)},z={(0cm,1cm)},line cap=round]
+\def\h{0.5}
+\def\R{2.2}
+\def\Tmin{-2.0349560*2}
+\def\Tmax{1.9103089*2}
+\def\Px{11}
+\def\Py{7}
+\def\Pz{7}
+
+% X(t)=(t,0.42t+0.0375t^2,0.20t-0.0275t^2)
+% p=(0,0,0), r=4, h=0.5
+% Cube centers in world coordinates
+\def\CubeCenters{%
+  -3.750/-1.250/-1.250,
+  -3.250/-1.250/-1.250,
+  -3.250/-0.750/-1.250,
+  -3.250/-0.750/-0.750,
+  -2.750/-0.750/-0.750,
+  -2.250/-0.750/-0.750,
+  -1.750/-0.750/-0.750,
+  -1.750/-0.750/-0.250,
+  -1.250/-0.750/-0.250,
+  -1.250/-0.250/-0.250,
+  -0.750/-0.250/-0.250,
+  -0.250/-0.250/-0.250,
+  -0.250/-0.250/0.250,
+  -0.250/0.250/-0.250,
+  -0.250/0.250/0.250,
+  0.250/-0.250/-0.250,
+  0.250/-0.250/0.250,
+  0.250/0.250/-0.250,
+  0.250/0.250/0.250,
+  0.750/0.250/0.250,
+  1.250/0.250/0.250,
+  1.250/0.750/0.250,
+  1.750/0.750/0.250,
+  2.250/0.750/0.250,
+  2.250/1.250/0.250,
+  2.750/1.250/0.250,
+  2.750/1.750/0.250,
+  3.250/1.750/0.250,
+  3.750/1.750/0.250
+}
+
+% Grid indices of the same cubes
+\def\CubeIndices{%
+%  -8/-3/-3,
+  -7/-3/-3,
+  -7/-2/-3,
+  -7/-2/-2,
+  -6/-2/-2,
+  -5/-2/-2,
+  -4/-2/-2,
+  -4/-2/-1,
+  -3/-2/-1,
+  -3/-1/-1,
+  -2/-1/-1,
+  -1/-1/-1,
+  -1/-1/0,
+  -1/0/-1,
+  -1/0/0,
+  0/-1/-1,
+  0/-1/0,
+  0/0/-1,
+  0/0/0,
+  1/0/0,
+  2/0/0,
+  2/1/0,
+  3/1/0,
+  4/1/0,
+  4/2/0,
+  5/2/0,
+  5/3/0,
+  6/3/0%,  7/3/0
+}
+
+\begin{scope}
+% Coordinate axes
+\draw[->,gray!70] (-0.5,0,0)--(18.5,0,0) node[below] {$x_1$};
+\draw[->,gray!70] (0,-0.5,0)--(0,10.5,0) node[right] {$x_2$};
+\draw[->,gray!70] (0,0,-0.5)--(0,0,7.5) node[above] {$x_3$};
+\ProjectVoxel{\Px-8}{\Py-3}{\Pz-3}{25}
+\foreach \x/\y/\z in \CubeIndices {
+  \ProjectVoxel{\Px+\x}{\Py+\y}{\Pz+\z}{50}
+}
+\ProjectVoxel{\Px+7}{\Py+3}{\Pz+0}{25}
+\DrawVoxel{\Px-8}{\Py-3}{\Pz-3}{white!70!black}
+\foreach \x/\y/\z in \CubeIndices {
+  \DrawVoxel{\Px+\x}{\Py+\y}{\Pz+\z}{white!25!black}
+}
+\DrawVoxel{\Px+7}{\Py+3}{\Pz+0}{white!70!black}
+\end{scope}
+\def\Radius{8}
+
+% Centre de la sphère dans l'espace
+\coordinate (P) at (\Px,\Py,\Pz);
+
+
+% Curve, restricted to the Euclidean ball B(p,R), p=(0,0,0).
+% Parametric curve:
+\begin{scope}
+\draw[blue,very thick,domain=-4:4,samples=150,variable=\t]
+  plot ({\Px+(\t)/\h},{\Py+(0.42*\t+0.0375*\t*\t)/\h},
+        {\Pz+(0.20*\t-0.0275*\t*\t)/\h});
+\draw[black,thick,domain=-6:-4,samples=50,variable=\t]
+  plot ({\Px+(\t)/\h},{\Py+(0.42*\t+0.0375*\t*\t)/\h},
+        {\Pz+(0.20*\t-0.0275*\t*\t)/\h});
+%\draw[blue!75!black,very thick,samples=180,domain=\Tmin:\Tmax,smooth,variable=\t]
+% plot ({\Px+\t},{\Py+0.42*\t+0.075*\t*\t},{\Pz+0.20*\t-0.055*\t*\t});
+\fill (\Px,\Py,\Pz) circle (1.6pt) node[blue,above left] {$p$};
+\node[blue,above left] at (\Px+7,\Py+3,\Pz+0) {$X\cap B(p,r)$};
+\end{scope}
+% Optional sphere guide (schematic outline)
+% \draw[blue!40,dashed] (0,0,0) circle (\R cm);
+% Dessin du contour apparent dans le plan de la feuille
+\begin{scope}[x=0.4cm,y=0.4cm]
+  \pgftransformreset
+  \path (P);
+  \pgfgetlastxy{\ScreenX}{\ScreenY}
+
+  \shade[ball color=cyan!35, opacity=0.15]
+    (\ScreenX,\ScreenY) circle[radius=\Radius];
+
+  \draw[blue!60, thin]
+    (\ScreenX,\ScreenY) circle[radius=\Radius];
+\end{scope}
+\draw[black,thick,domain=4:6,samples=50,variable=\t]
+  plot ({\Px+(\t)/\h},{\Py+(0.42*\t+0.0375*\t*\t)/\h},
+        {\Pz+(0.20*\t-0.0275*\t*\t)/\h});
+
+\end{tikzpicture}
