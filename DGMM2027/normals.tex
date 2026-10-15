@@ -1,0 +1,303 @@
+\section{Normal estimation on digital surfaces}
+
+In this section, we write $\widehat{i}$ for the $d-1$ subset of indices
+$\{1,\ldots,d\} \setminus \{ i \}$.
+
+\begin{theorem}
+\label{thm:normal-recovery}
+Let $T\subset\mathbb R^d$ be a $(d-1)$-dimensional linear subspace
+with unit normal vector $n=(n_1,\ldots,n_d)$.
+Then \( V_{\widehat{i}}(T,p,r)=\omega_{d-1}r^{d-1}|n_i|. \)
+Consequently, the $d$ $\pi_{\widehat{i}}$-projection volumes uniquely
+determine the absolute values of the components
+of the unit normal vector:
+\[
+W_{d-1}(T,p,r) := \sum_{i=1}^d V_{\widehat{i}}(T,p,r)^2
+=
+\omega_{d-1}^2r^{2(d-1)},
+~\text{and}~
+|n_i|=\frac{V_{\widehat{i}}(T,p,r)}
+{\sqrt{W_{d-1}(T,p,r)}}.
+\]
+\end{theorem}
+
+\begin{proof}
+Let $A\in\mathbb R^{d\times(d-1)}$ have orthonormal columns spanning
+$T$, so that $A^\top A=\mathrm{Id}_{d-1}$.  For each $i, 1\Le i \Le
+d$, let $A_{\widehat i}$ be the square matrix obtained by deleting the
+$i$-th row of $A$.  The restriction of $\pi_{\widehat i}$ to $T$ is
+represented by $A_{\widehat i}$.  Hence, by standard area computation, 
+\[
+V_{\widehat{i}}(T,p,r)=\omega_{d-1}r^{d-1}|\det A_{\widehat i}|.
+\]
+
+\begin{sloppypar}
+Consider the vector of signed maximal minors $c=(c_1,\ldots,c_d)$,
+with $c_i = (-1)^{i+1} \det A_{\widehat i}$.  By the cofactor expansion,
+$c$ is orthogonal to every column of $A$, and therefore $c$ is
+parallel to $n$.
+Moreover, applying the Cauchy--Binet formula gives
+\(
+\|c\|_2^2
+=
+\sum_{i=1}^d\det(A_{\widehat i})^2
+=
+\det(A^\top A)=1.
+\).
+Since $n$ is a unit normal vector and $c$ is parallel to $n$, we obtain
+$c=\pm n$. In particular,
+\(
+|\det A_{\widehat i}|=|n_i|.
+\)
+Substitution into the expression for $V_{\widehat{i}}(T,p,r)$
+proves the first identity. The remaining
+identities follow from $\|n\|_2=1$. \qed
+\end{sloppypar}
+\end{proof}
+
+
+
+\begin{corollary}[Local estimation of the absolute normal components]
+\label{cor:local-normal-estimation}
+Let $X\subset\mathbb R^d$ be a $C^2$ hypersurface
+without boundary, with reach at least $\rho>0$.
+Let $p\in X$, and let
+$n(p)=(n_1(p),\ldots,n_d(p))$
+be a unit normal vector at $p$.
+
+For each $i\in\{1,\ldots,d\}$, let
+$\pi_{\widehat i}:\mathbb R^d\to\mathbb R^{d-1}$
+denote the orthogonal coordinate projection
+obtained by deleting the $i$-th coordinate.
+Define
+\[
+V_i(p,r)
+:=
+\mathcal H^{d-1}
+\bigl(\pi_{\widehat i}(X\cap B(p,r))\bigr),
+\]
+and the normalized estimator
+\[
+\widehat n_i(p,r)
+:=
+\frac{V_i(p,r)}
+{\left(\sum_{j=1}^d V_j(p,r)^2\right)^{1/2}}.
+\]
+
+There exist constants $c_d,C_d>0$, depending
+only on $d$, such that, whenever
+$0<r<c_d\rho$, the estimator is well-defined
+and satisfies
+\[
+\boxed{
+\left\|
+\widehat n(p,r)-|n(p)|
+\right\|_2
+\le C_d\frac r\rho,
+}
+\]
+where
+\[
+|n(p)|=(|n_1(p)|,\ldots,|n_d(p)|).
+\]
+\end{corollary}
+
+\begin{proof}
+Let $T=T_pX$ and let $B_T(p,r)$ denote the
+$(d-1)$-dimensional ball of radius $r$
+contained in the affine tangent hyperplane
+$p+T$.
+
+By the local stability theorem for coordinate
+projection volumes, there exists a constant
+$C_d^{\mathrm{stab}}>0$ such that, for every $i$,
+\[
+\left|
+V_i(p,r)
+-
+\mathcal H^{d-1}
+\bigl(\pi_{\widehat i}(B_T(p,r))\bigr)
+\right|
+\le
+C_d^{\mathrm{stab}}\frac{r^d}{\rho}.
+\]
+
+By the exact formula for the coordinate
+projections of a tangent ball,
+\[
+\mathcal H^{d-1}
+\bigl(\pi_{\widehat i}(B_T(p,r))\bigr)
+=
+\omega_{d-1}r^{d-1}|n_i(p)|.
+\]
+Consequently,
+\[
+\left|
+V_i(p,r)
+-
+\omega_{d-1}r^{d-1}|n_i(p)|
+\right|
+\le
+C_d^{\mathrm{stab}}\frac{r^d}{\rho}.
+\]
+
+Set
+\[
+a=\omega_{d-1}r^{d-1},
+\qquad
+v=(V_1(p,r),\ldots,V_d(p,r)),
+\qquad
+u=|n(p)|.
+\]
+Since $\|u\|_2=1$, the preceding estimates give
+\[
+\|v-au\|_2
+\le
+\sqrt d\,C_d^{\mathrm{stab}}\frac{r^d}{\rho}.
+\]
+
+For $r/\rho$ sufficiently small, $v\ne0$.
+Moreover, the elementary normalization inequality
+\[
+\left\|
+\frac{v}{\|v\|_2}-u
+\right\|_2
+\le
+\frac{2\|v-au\|_2}{a}
+\]
+yields
+\[
+\left\|
+\widehat n(p,r)-|n(p)|
+\right\|_2
+\le
+\frac{2\sqrt d\,C_d^{\mathrm{stab}}}
+{\omega_{d-1}}
+\frac r\rho.
+\]
+This proves the claim.
+\end{proof}
+
+
+\begin{corollary}[Normal estimation from a cubical discretization]
+\label{cor:cubical-normal-estimation}
+Under the assumptions of
+Corollary~\ref{cor:local-normal-estimation},
+let $U_h(X)$ be the union of all closed
+axis-aligned grid cubes of side length $h$
+that intersect $X$, and define
+\[
+Y_h(p,r)=U_h(X)\cap B(p,r).
+\]
+
+For each $i\in\{1,\ldots,d\}$, set
+\[
+V_{i,h}(p,r)
+:=
+\mathcal H^{d-1}
+\bigl(\pi_{\widehat i}(Y_h(p,r))\bigr),
+\]
+and
+\[
+\widehat n_{i,h}(p,r)
+:=
+\frac{V_{i,h}(p,r)}
+{\left(\sum_{j=1}^d V_{j,h}(p,r)^2\right)^{1/2}}.
+\]
+
+There exist constants $c_d,C_d>0$, depending
+only on $d$, such that, whenever
+\[
+0<h\le r,\qquad
+\frac hr+\frac r\rho<c_d,
+\]
+the estimator is well-defined and satisfies
+\[
+\boxed{
+\left\|
+\widehat n_h(p,r)-|n(p)|
+\right\|_2
+\le
+C_d\left(\frac hr+\frac r\rho\right).
+}
+\]
+\end{corollary}
+
+\begin{proof}
+By the local stability theorem for cubical
+discretizations, applied with $k=m=d-1$,
+there exists a constant
+$C_d^{\mathrm{stab}}>0$ such that
+\[
+\left|
+V_{i,h}(p,r)
+-
+\mathcal H^{d-1}
+\bigl(\pi_{\widehat i}(B_T(p,r))\bigr)
+\right|
+\le
+C_d^{\mathrm{stab}}r^{d-2}
+\left(h+\frac{r^2}{\rho}\right),
+\]
+where $T=T_pX$.
+
+Using again the exact projection formula
+\[
+\mathcal H^{d-1}
+\bigl(\pi_{\widehat i}(B_T(p,r))\bigr)
+=
+\omega_{d-1}r^{d-1}|n_i(p)|,
+\]
+we obtain
+\[
+\left|
+V_{i,h}(p,r)
+-
+\omega_{d-1}r^{d-1}|n_i(p)|
+\right|
+\le
+C_d^{\mathrm{stab}}r^{d-2}
+\left(h+\frac{r^2}{\rho}\right).
+\]
+
+Writing
+\[
+v_h=(V_{1,h}(p,r),\ldots,V_{d,h}(p,r)),
+\qquad
+a=\omega_{d-1}r^{d-1},
+\qquad
+u=|n(p)|,
+\]
+gives
+\[
+\|v_h-au\|_2
+\le
+\sqrt d\,C_d^{\mathrm{stab}}r^{d-2}
+\left(h+\frac{r^2}{\rho}\right).
+\]
+
+For $h/r+r/\rho$ sufficiently small,
+$v_h\ne0$. Applying the normalization
+inequality yields
+\[
+\left\|
+\widehat n_h(p,r)-|n(p)|
+\right\|_2
+\le
+\frac{2\sqrt d\,C_d^{\mathrm{stab}}}
+{\omega_{d-1}}
+\left(\frac hr+\frac r\rho\right),
+\]
+which proves the result.
+\end{proof}
+
+
+\begin{remark}[Sign ambiguity]
+The projection volumes determine only the
+absolute values of the normal components.
+In particular, the relative signs of
+$n_1(p),\ldots,n_d(p)$ cannot be recovered
+from these measurements alone.
+Additional geometric information is needed
+to reconstruct the full normal direction.
+\end{remark}
