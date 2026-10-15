@@ -99,28 +99,65 @@ embedding space.
 
 \begin{figure}
   \begin{center}
-    \input{./illustration-on-curve.tikz}
+    \begin{minipage}{0.7\textwidth}
+      \input{./illustration-on-curve.tikz}
+    \end{minipage}
+    \begin{minipage}{0.28\textwidth}
+      \begin{tabular}{|c|>{\centering\arraybackslash}p{13mm}|} \hline
+        $\HH^0(\pi_{\emptyset}(Y))$ & $1$ \\ \hline
+        $\HH^1(\pi_{1}(Y))$ & $14+2\frac{1}{2}$ \\
+        $\HH^1(\pi_{2}(Y))$ & $5+2\frac{1}{2}$ \\
+        $\HH^1(\pi_{3}(Y))$ & $4$ \\ \hline
+        $\HH^2(\pi_{1,2}(Y))$ & $21+2\frac{1}{2}$ \\
+        $\HH^2(\pi_{1,3}(Y))$ & $18+2\frac{1}{2}$ \\
+        $\HH^2(\pi_{2,3}(Y))$ & $10+\frac{1}{2}$ \\ \hline
+        $\HH^3(\pi_{1,2,3}(Y))$ & $27+2\frac{1}{2}$ \\ \hline
+        $\frac{1}{r^0}W_0(Y)$ & \cellcolor{lightgray}$1$ \\
+        $\frac{1}{r^2}W_1(Y)$ & \cellcolor{lightgray}$4.32$ \\
+        $\frac{1}{r^4}W_2(Y)$ & \cellcolor{lightgray}$0.23$ \\
+        $\frac{1}{r^6}W_3(Y)$ & \cellcolor{lightgray}$0.00$ \\ \hline
+      \end{tabular}
+      \begin{tabular}{|c|>{\centering\arraybackslash}p{4.5mm}>{\centering\arraybackslash}p{5mm}>{\centering\arraybackslash}p{5mm}>{\centering\arraybackslash}p{5.5mm}|} \hline
+        $m$ & 0 & 1 & 2 & 3 \\ \hline
+        $\bar{W}_{m}(0)$ & 1 & 0 & 0 & 0 \\
+        $\bar{W}_{m}(1)$ & \cellcolor{lightgray}1 & \cellcolor{lightgray}4 & \cellcolor{lightgray}0 & \cellcolor{lightgray}0 \\
+        $\bar{W}_{m}(2)$ & 1 & 8 & $\pi^2$ & 0 \\
+        $\bar{W}_{m}(3)$ & 1 & 12 & $3\pi^2$ & $\frac{16}{9}\pi^2$ \\ \hline
+      \end{tabular}
+    \end{minipage}
   \end{center}
   \caption{Local dimension analysis on a voxelization of a 3D curve
     $X$ using the stability of measures $W_m$. Here $Y:=U_1(X) \cap
-    B(p,r)$ with $r=8$, Measuring 1D projections gives
-    $\HH^1(\pi_{1}(Y))=14+2\frac{1}{2}$,
-    $\HH^1(\pi_{2}(Y))=5+2\frac{1}{2}$, $\HH^1(\pi_{3}(Y))=4$ (to
-    simplify, we have counted $\frac{1}{2}$ for cubes on the boundary
-    of the ball $\partial B(p,r)$ in order to approximate the
-    intersections with the ball). So $\frac{1}{r^2}W_1(Y) =
-    \frac{15^2+6^2+4^2}{8^2} \approx 4.32$. For a 1-manifold, expected
-    value is $\bar{W}_1(1)=4$ while for a 2-manifold it is
-    $\bar{W}_1(2)=8$. So the first measure $W_1$ seems to indicate
-    that $p$ is part of a 1-manifold. Now measuring 2D projections
-    gives $\HH^2(\pi_{1,2}(Y))=21+2\frac{1}{2}$,
-    $\HH^2(\pi_{1,3}(Y))=18+2\frac{1}{2}$,
-    $\HH^2(\pi_{2,3}(Y))=10+\frac{1}{2}$. So $\frac{1}{r^4}W_2(Y) =
-    \frac{22^2+19^2+10.5^2}{8^4} \approx 0.23$. For a 1-manifold,
-    expected value is $\bar{W}_2(1)=0$, and for a 2-manifold it is
-    $\bar{W}_2(2)=\pi^2$. The second measure $W_2$ tells that $p$ is
-    not part of 2-manifold, which confirms that $p$ is indeed part of
-    a curve in 3D.\label{fig-illustration}}
+    B(p,r)$ with $r=8$. Each cube has unit side so its $m$-dimensional
+    measure is $1$ if fully inside $B(p,r)$. To simplify the
+    exposition, measures are approximated as $\frac{1}{2}$ for cubes
+    on the boundary of the ball $\partial B(p,r)$. Haussdorf measures
+    of projections and local measures $\frac{1}{r^{2m}}W_m(Y)$ are
+    displayed on the right. One can check for instance that
+    $\frac{1}{r^2}W_1(Y) = \frac{15^2+6^2+4^2}{8^2} \approx 4.32$ and
+    $\frac{1}{r^4}W_2(Y) = \frac{22^2+19^2+10.5^2}{8^4} \approx 0.23$.
+    It is clear that the invariants $\bar{W}_m(1)$ are the closest to
+    the local measures (grayed cells), which show that $p$ is very
+    probably the voxelization of a $1$-submanifold of $\R^3$, i.e. a
+    curve in 3D.  \label{fig-illustration}}
+    %% in order to approximate the intersections with the ball, Measuring
+    %% 1D projections gives $\HH^1(\pi_{1}(Y))=14+2\frac{1}{2}$,
+    %% $\HH^1(\pi_{2}(Y))=5+2\frac{1}{2}$, $\HH^1(\pi_{3}(Y))=4$ (to
+    %% simplify, we have counted $\frac{1}{2}$ for cubes on the boundary
+    %% of the ball $\partial B(p,r)$ in order to approximate the
+    %% intersections with the ball). So $\frac{1}{r^2}W_1(Y) =
+    %% \frac{15^2+6^2+4^2}{8^2} \approx 4.32$. For a 1-manifold, expected
+    %% value is $\bar{W}_1(1)=4$ while for a 2-manifold it is
+    %% $\bar{W}_1(2)=8$. So the first measure $W_1$ seems to indicate
+    %% that $p$ is part of a 1-manifold. Now measuring 2D projections
+    %% gives $\HH^2(\pi_{1,2}(Y))=21+2\frac{1}{2}$,
+    %% $\HH^2(\pi_{1,3}(Y))=18+2\frac{1}{2}$,
+    %% $\HH^2(\pi_{2,3}(Y))=10+\frac{1}{2}$. So $\frac{1}{r^4}W_2(Y) =
+    %% \frac{22^2+19^2+10.5^2}{8^4} \approx 0.23$. For a 1-manifold,
+    %% expected value is $\bar{W}_2(1)=0$, and for a 2-manifold it is
+    %% $\bar{W}_2(2)=\pi^2$. The second measure $W_2$ tells that $p$ is
+    %% not part of 2-manifold, which confirms that $p$ is indeed part of
+    %% a curve in 3D.\label{fig-illustration}}
 \end{figure}
 
 Note that both measures $V_J$ and $W_m$ are also stable with respect
@@ -134,14 +171,14 @@ proofs of the theorems mentioned above.
 \subsection{Local measures of $k$-balls are invariants}
 
 The fact that the Pythagorean theorem extends to arbitrary volumes has
-been rediscovered under different forms several times. The recent
+been rediscovered under different forms several times \cite{Conant01031974,Czyzewska:1991}. The recent
 paper of Ancel \cite{ancel2023pythagorean} provides a general form
 for a Lebesgue measurable set $S$ in a $k$-dimensional affine
 space. Then $\HH^k(S)^2=\sum_{J \in \mathcal{I}_k} \HH^k(\pi_J(S))^2$ (here
 Lebesgue and $k$-th Hausdorff measures are the same).
 
 We provide here a much simpler proof for the case of the ball, which
-is sufficient in our context. This formulation also extends the result to lower dimensional projections.
+is sufficient in our context. This formulation also extends the result to lower dimensional projections (i.e. for $0 \Le m < k$).
 \begin{theorem}\label{thm:ball-invariants}
 Let $B^k$ be the unit Euclidean ball embedded isometrically into
 $\mathbb{R}^d$ with the linear map $A\in\mathbb{R}^{d\times k}, A^T

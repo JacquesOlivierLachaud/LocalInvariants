@@ -43,7 +43,7 @@
 %%   \draw[fill=#4!40!white,draw=black,thin] (#1-0.5,#6,#3-0.5) -- (#1+0.5,#6,#3-0.5) -- (#1+0.5,#6,#3+0.5) -- (#1-0.5,#6,#3+0.5) -- cycle;
 %% }
 
-\begin{tikzpicture}[math3d]
+\begin{tikzpicture}[math3d,scale=0.8]
   %%[x={(1cm,-.35cm)},y={(.9cm,.25cm)},z={(0cm,1cm)},line cap=round]
 \def\h{0.5}
 \def\R{2.2}
