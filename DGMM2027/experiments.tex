@@ -1,0 +1,47 @@
+\section{Experiments}
+
+\begin{figure}[t]
+  \begin{tabular}{ccc}
+    $\mathrm{P}[\dim(p)=1]$ &
+    $\mathrm{P}[\dim(p)=2]$ &
+    $\mathrm{P}[\dim(p)=3]$ \\
+    \includegraphics[width=0.32\textwidth]{test0-n0-r5-dim1.png}&
+    \includegraphics[width=0.32\textwidth]{test0-n0-r5-dim2.png}&
+    \includegraphics[width=0.32\textwidth]{test0-n0-r5-dim3.png}\\
+    \includegraphics[width=0.32\textwidth]{test0-n0_2-r5-dim1.png}&
+    \includegraphics[width=0.32\textwidth]{test0-n0_2-r5-dim2.png}&
+    \includegraphics[width=0.32\textwidth]{test0-n0_2-r5-dim3.png}\\
+    %% \includegraphics[width=0.48\textwidth]{test0-n0-r4-dim.png}&
+    %% \includegraphics[width=0.48\textwidth]{test0-n0-r7-dim.png}\\
+    %% \includegraphics[width=0.48\textwidth]{test0-n0_2-r4-dim.png}&
+    %% \includegraphics[width=0.48\textwidth]{test0-n0_2-r7-dim.png}\\
+  \end{tabular}
+  \caption{\label{fig-dimension-analysis}Illustration of the local
+    $m$-measures to recognize the local dimension of a digital point
+    in a toy 3D image, composed of line segments, pierced surfaces and
+    a thick annulus with thin edges (top row: original image, bottom
+    row: image perturbated by a Kanungo noise with parameter 0.2). The
+    colormap ranges from white (0.0) to dark red (1.0). Each column
+    gives the probability that a voxel has a given dimension $k$, for
+    a radius $r=5$.}
+\end{figure}
+
+For a point $p$, let $W:=(W_0,\ldots,W_d)$ be its local measures for a
+radius $r$. Then define
+\[
+d_{k,j} := \left\{
+\begin{array}{l}
+  (W_j - \bar{W}_j(k))/\bar{W}_j(k))~\text{when $0\Le j \Le k$}\\
+  W_j/\bar{W}_j(j)~\text{when $k < j \Le d$}
+\end{array}
+\right.,
+\qquad
+q_k := \Pi_{j=0}^d e^{-j d_{k,j}^2}.
+\]
+The value $q_k$ is the greatest when the vector $W$ ressembles the
+vector $\bar{W}(k)$. Then the probability that $p$ has dimension $k$
+can be expressed as $\mathrm{P}[\dim(p)=k] := \mathrm{softmax}_k(q_0,
+\ldots, q_d)$. \RefFigure{fig-dimension-analysis} illustrates these
+values on a toy 3D image assembling digitized submanifolds of
+different dimensions. Note how the probabilities are invariant to the
+orientation of digitized manifolds, while staying robust to noise.
