@@ -8,9 +8,9 @@ release:
 	pdflatex paper.tex
 
 clean:
-	rm *.aux *.log *.toc *.log *.bbl *.idx
-	rm paper.pdf
+	rm -f *.aux *.log *.toc *.log *.bbl *.idx *.out *.blg
+	rm -f paper.pdf
 
 fullclean: clean
-	rm *~
+	rm -f *~
 
