@@ -1,31 +1,104 @@
 \section{Introduction}
 
+\noindent\textbf{Context.} When analyzing discrete data like point clouds, determining the
+local intrinsic dimension of the data is crucial for its
+further geometric or semantic analysis. The same holds when analyzing
+digital sets. For instance, in 3D biomedical imaging, analyzing
+geometrically vascular or airway networks must be carried out
+differently than thin bones or organs. In material engineering,
+polymeric or metal foams contain 1D filaments or 2D surfaces depending
+on their manufacturing. Their topology and geometry strongly influence
+macroscopic physical characteristics, like anisotropic rigidity or
+elasticity.
 
-Intrinsic dimension analysis of data.
+\noindent\textbf{Contribution.}  We introduce a family of geometric
+invariants based on the volumes of coordinate projections for the
+local analysis of digital sets. For a \(k\)-dimensional Euclidean ball
+of radius \(r\), we show that the sum of the squared \(m\)-dimensional
+projection volumes equals \(\omega_m^2\binom{k}{m}r^{2m}\), whatever
+the orientation of the ball or the ambient dimension. These identities
+give geometric characterizations of intrinsic dimension through
+coordinate projections. We then establish stability estimates for
+local neighborhoods of smooth submanifolds and show how these
+estimates extend to their standard cubical discretizations. They lead
+to local intrinsic dimension estimators with explicit approximation
+bounds. We further show that the individual projection volumes provide
+estimates of the absolute components of the local unit normal vector
+on digitized surfaces.
 
-Fukunaga and Olsen \cite{Fukunaga:1971} dimension analysis through the spectrum of local covariance matrix.
+%% This paper proposes a new geometric approach to the local analysis of
+%% data, which is based on studying the measures of the data projections
+%% along all subsets of coordinate axes of a prescribed cardinality. We
+%% show that these measures are stable for arbitrary $k$-submanifolds,
+%% whatever their orientation and the dimension of the embedding space
+%% $\R^d$. Then we show that this stability extends to standard
+%% discretization of $k$-submanifolds, leading to robust estimators of
+%% local intrinsic dimension, and even to normal estimates for digitized
+%% $d-1$-manifolds.
 
-Levina et Bickel \cite{Levina:2004} Maximum Likelihood Estimation of
-Intrinsic Dimension, local approximation with Poisson process.
+\noindent\textbf{Related works.}  For point clouds, the main
+approaches to estimating local intrinsic dimension include analyzing
+the spectrum of local covariance matrices \cite{Fukunaga:1971},
+studying the scaling of neighborhood point counts or nearest-neighbor
+distances \cite{Levina:2004,Farahmand:2007}, and constructing
+multiscale affine approximations \cite{Allard:2012}.  Nonlinear
+dimensionality reduction provides another perspective, notably through
+Isomap \cite{Tenenbaum:2000}, which approximates geodesic distances
+using nearest-neighbor graphs, and locally linear embedding
+\cite{Roweis:2000}, which preserves local affine reconstruction
+weights in a low-dimensional embedding.  For digital sets, related
+geometric approaches often rely on local approximation by digital
+lines, planes, or hyperplanes (e.g. see
+\cite{Klette:2004}). Extensions and algorithms in higher dimensions
+have also been investigated
+\cite{Gerard:2005,Charrier:2011,Provot:2011}.  In contrast, our
+approach relies on geometric invariants constructed from coordinate
+projection volumes. These invariants admit exact
+orientation-independent identities and quantitative stability bounds,
+while being easy to compute on cubical representations.
 
-Farahmand et al. \cite{Farahmand:2007} dimension analysis by measuring the logarithm of the growth of the number of points within a ball, with theoretic guarantees
+%% For cloud of points, the major approaches to estimate the intrinsic
+%% local dimension of data are: studying the spectrum of the local
+%% covariance matrix \cite{Fukunaga:1971}, evaluating the growth of the
+%% density with respect to the distance \cite{Levina:2004,Farahmand:2007}
+%% or fitting affine approximations in a multiscale way
+%% \cite{Allard:2012}. Alternatively, dimension reduction is also a way
+%% to approach the problem, and we may quote the Isomap method
+%% \cite{Tenenbaum:2000} which uses nearest neighbor graphs to build
+%% approximate geodesics or the LLE method \cite{Roweis:2000} which
+%% locally fits a linear embedding with barycentric coordinates. For
+%% digital data, most methods related to dimension analysis relies on a
+%% local approximation by a digital line or plane (see survey
+%% \cite{Klette:2004} or \cite{Feschet:2008}), and few methods extend to
+%% arbitrary dimension
+%% \cite{Gerard:2005,Charrier:2011,Provot:2011}. While interesting on
+%% their own, none of these methods exploit the kind of geometric
+%% invariants we present here, which offer strong guarantees while being
+%% easy to compute.
 
-Allard et al. \cite{Allard:2012} multiscale decomposition by tree decomposition, affine approximation, difference by affine approximation (similarly to wavelets).
+\noindent\textbf{Organisation.}  In Section~\ref{sec-invariants}, we
+define our geometric invariants, which are related to the Pythagorean
+formula for volumes
+\cite{Conant01031974,Czyzewska:1991,ancel2023pythagorean}. when
+applied to balls, we show they depend only on their affine
+dimension. We establish their stability with respect to Hausdorff
+perturbation, as well as to their discretization by covering of cubes,
+enabling intrinsic dimension analysis of digital
+sets. Section~\ref{sec-normals} highlights the link between projection
+volumes and the absolute components of the local normal
+vector. Section~\ref{sec-experiments} provides an experimental
+illustration of our method, and concludes with a few perspectives.
 
+%% present first an overview of our
+%% approach, which relates to the Pythagorean formula for volumes
+%% \cite{Conant01031974,Czyzewska:1991,ancel2023pythagorean}. The
+%% proposed geometric invariants, applied to balls, are shown to depend
+%% only on their affine dimension. We show their stability with respect
+%% to Hausdorff perturbation. Their discretization
+%% by covering of cubes also satisfies these constraints, enabling intrinsic
+%% dimension analysis of digital sets. Section~\ref{sec-normals}
+%% highlights the link between projection volumes and the absolute
+%% components of the local normal vector. Section~\ref{sec-experiments}
+%% provides an experimental illustration of the robustness of our method,
+%% and concludes with a few perspectives.
 
-Dimensionality reduction.
-Tenenbaum et al. Isomap uses the nearest neighbor graph to estimate geodesic distances. Its s\cite{Tenenbaum:2000}
-
-Roweis and Saul: Local linear embedding \cite{Roweis:2000} Find the
-barycentric coordinates of point within its neighbors, then find a
-k-dimensionak basis minimising the reconstruction error.
-
-Common drawback: a curved curve in $\R^d$ has locally an affine
-dimension that may be greater than 1, hence affine approximation may
-fail.
-
-Digital geometry.
-
-Most methods for dimension analysis relies on a local approximation by a digital line or plane. \cite{Feschet:2008}
-
-There are few methods working in arbitrary dimension \cite{Charrier:2011,Provot:2011}.

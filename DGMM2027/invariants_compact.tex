@@ -1,19 +1,26 @@
 \section{Geometric invariants based on projections}
+\label{sec-invariants}
 
+\noindent\emph{Main notations.}  Let $\R^d$ be the Euclidean
+$d$-dimensional space and $\Z^d$ its subset of points with integer
+coordinates. For any integer $m$, $0 \Le m \Le d$, we denote by
+$\mathcal{I}_m$ the set of subsets of $\{1,\dots,d\}$ with cardinal
+$m$. For any $J \in \mathcal{I}_m$, the map $\pi_J: \R^d \to \R^m$ is
+the orthogonal projection onto the subspace with coordinates in
+$J$. Let $p$ be any point of $\R^d$ and let $r>0$ define the radius of
+the local analysis. We write $B(p,r)$ the $d$-dimensional ball of
+center $p$ and radius $r$. The unit $m$-dimensional ball centered on
+$0$ is denoted by $B^m$, with volume $\omega_m$. If $T$ is a subset of
+$\R^d$, we write $B_T(p,r)$ for $B(p,r) \cap T$.
 
-\paragraph*{Main notations and concepts.}
-Let $\R^d$ be the Euclidean $d$-dimensional space and $\Z^d$ its
-subset of points with integer coordinates. For any integer $m$, $0 \Le
-m \Le d$, we denote by $\mathcal{I}_m$ the set of subsets of
-$\{1,\dots,d\}$ with cardinal $m$. For any $J \in \mathcal{I}_m$, the
-map $\pi_J: \R^d \to \R^m$ is the orthogonal projection onto the
-subspace with coordinates in $J$. Let $p$ be any point of $\R^d$ and
-let $r$ be a positive value which defines the radius of the local
-analysis. We write $B(p,r)$ the $d$-dimensional ball of center $p$ and
-radius $r$. The unit $m$-dimensional ball centered on $0$ is denoted
-by $B^m$, with volume $\omega_m$. If $T$ is a subset of $\R^d$, we write
-$B_T(p,r)$ for $B(p,r) \cap T$. The following measures associate a
-local value to a set through projections onto sub-axes.
+Let $X \subset \R^d$ be a $C^2$-smooth submanifold of $\R^d$ of
+dimension $k$ without boundary. We further suppose it has positive
+reach greater than $\rho>0$. For $h>0$ a discretization step, let
+$Q_h:= \left[-\frac{h}{2}, \frac{h}{2}\right]^d$. Let $G_h(X) := \{ z
+\in h\Z^d~|~X \cap (z+Q_h) \neq \emptyset \}$. Then the
+\emph{$h$-voxelization} of $X$ is $U_h(X) := \cup_{z \in G_h(X)} (z +
+Q_h)$.  The following measures associate values to sets through
+projections onto sub-axes.
 
 \begin{definition}[local measures]
   \label{def-local-measures}
@@ -26,37 +33,32 @@ local value to a set through projections onto sub-axes.
   \end{align}
 \end{definition}
 
-We will establish several stability results for these measures:
+This section establishes several results for these measures:
 \begin{enumerate}
-\item For $T$ an arbirary $k$-dimensional plane, $W_m(T,p,r)$ is $0$ if
-  $m>k$, otherwise is a constant times the square of the volume of the
-  $m$-ball, independently of the position and the orientation of $T$ in $\R^d$.
-\item For $X$ a smooth closed $k$-manifold, $W_m(X,p,r)$ is close to
-  $W_m(T_p X,p,r)$ (for $T_p X$ the tangent plane to $X$ at $p$),
-  hence also independent of the orientation of the tangent plane.
-\item The same result hold for a covering discretization of $X$.
-\item The quantities $V_J$ are also stable and related to the local
-  geometry of $X$ or its discretization (tangent vector, normal).
+\item For $T$ an arbirary $k$-dimensional plane, $W_m(T,p,r)=0$ if
+  $m>k$, otherwise $W_m(T,p,r)=\omega_m^2\binom{k}{m}r^{2m}$,
+  independently of the orientation of $T$ in $\R^d$ (\RefTheorem{thm:ball-invariants}).
+\item $W_m(X,p,r)$ is close to $W_m(T_p X,p,r)$ (for $T_p X$ the
+  tangent plane to $X$ at $p$), hence independent of the orientation
+  of the tangent plane (\RefTheorem{thm:stabilite-projections}).
+\item The same result hold for a covering discretization of $X$ (\RefTheorem{thm:cubical-admissible-set}).
+%% \item The quantities $V_J$ are also stable and related to the local
+%%   geometry of $X$ or its discretization (see Section~\ref{sec-normals}).
 \end{enumerate}
-Clearly, these properties give mathematical tools to analyse the local
-dimension of arbitrary lattice sets as well as some geometric
-information (see section on experiments). The stability estimates established below show that these quantities are
-robust under controlled geometric perturbations and discretization noise. We will also show the convergence of
-these local measures for finer and finer digitizations.
+%% Clearly, these properties give mathematical tools to analyse the local
+%% dimension of arbitrary lattice sets as well as some geometric
+%% information (see section on experiments). The stability estimates
+%% established below show that these quantities are robust under
+%% controlled geometric perturbations and discretization noise. We will
+%% also show the convergence of these local measures for finer and finer
+%% digitizations.
 
-We need a few more definitions. Let $X \subset \R^d$ be a $C^2$-smooth
-submanifold of $\R^d$ of dimension $k$ without boundary. We further
-suppose it has positive reach $\reach(X)\geq \rho>0$. For $h>0$ a
-discretization step, let $Q_h:= \left[-\frac{h}{2},
-  \frac{h}{2}\right]^d$. The \emph{$h$-covering discretization of $X$}
-is $G_h(X) := \{ z \in h\Z^d~|~X \cap (z+Q_h) \neq \emptyset \}$, its
-\emph{$h$-voxelization} is $U_h(X) := \cup_{z \in G_h(X)} (z + Q_h)$.
-
-Our main result below states that the local measure of a digitized set
-depends essentially on the dimension of its underlying submanifold,
+Our main result below states that the local measures of a digitized set
+depend essentially on the dimension of its underlying submanifold,
 with an error that tends to zero with the discretization
 gridstep. This provides a tool for analyzing the local dimension of
-digital data.
+digital data, see \RefFigure{fig-illustration} for an illustration.
+
 \begin{theorem}[Local approximation of $W_m$]
 \label{thm:main}
 There exist a constant $C=C(d,k)>0$ such that, for every $p \in X$ and $0<m\Le k$, if $0<r\Le \frac{1}{1+\sqrt{d}}\rho$ and $0<h\Le r$, then
@@ -66,18 +68,17 @@ There exist a constant $C=C(d,k)>0$ such that, for every $p \in X$ and $0<m\Le k
 \end{align}
 \end{theorem}
 \begin{proof}
-  The proof relies on three theorems proved afterwards:
-  \RefTheorem{thm:ball-invariants} shows that $W_m(B^k)$ is a constant
-  depending on $k$ and $m$, and independent of the orientation or
-  position of the unit $k$-ball $B^k$ in
-  $\R^d$. \RefTheorem{thm:stabilite-projections} proves that both
-  measures $V_j$ and $W_m$ are stable
-  with respect to controlled variations of $X$. Finally
-  \RefTheorem{thm:cubical-admissible-set} establishes that the
-  $h$-voxelization of $X$ is an admissible controlled variation of
-  $X$.
-
-  More precisely, let $X_r:= X \cap B(p,r)$ and $Y_h:=U_h(X) \cap
+  %% The proof relies on three theorems proved afterwards:
+  %% \RefTheorem{thm:ball-invariants} shows that $W_m(B^k)$ is a constant
+  %% depending on $k$ and $m$, and independent of the orientation or
+  %% position of the unit $k$-ball $B^k$ in
+  %% $\R^d$. \RefTheorem{thm:stabilite-projections} proves that both
+  %% measures $V_j$ and $W_m$ are stable
+  %% with respect to controlled variations of $X$. Finally
+  %% \RefTheorem{thm:cubical-admissible-set} establishes that the
+  %% $h$-voxelization of $X$ is an admissible controlled variation of
+  %% $X$.
+  Let $X_r:= X \cap B(p,r)$ and $Y_h:=U_h(X) \cap
   B(p,r)$. From \RefTheorem{thm:cubical-admissible-set}, we have $X_r
   \subset Y_h \subset (X_r)_{\varepsilon_h}$, with
   $\varepsilon_h=(1+2/\sqrt{3})\sqrt d\,h$. Applying \eqref{eq:stabilite-W} of
@@ -92,73 +93,10 @@ There exist a constant $C=C(d,k)>0$ such that, for every $p \in X$ and $0<m\Le k
 \end{proof}
 Balancing the two error terms suggests the scale
 $r=\Theta(\sqrt{h\rho})$, for which the relative error is
-$O(\sqrt{h/\rho})$. This result implies that the
-rescaled measure $W_m$ characterizes the local dimension of the
-underlying digitized manifold, independently of its orientation or its
-embedding space.
+$O(\sqrt{h/\rho})$. Each rescaled measure $W_m$ characterizes the local
+dimension of the underlying digitized manifold, independently of its
+orientation or its embedding space.
 
-\begin{figure}
-  \begin{center}
-    \begin{minipage}{0.7\textwidth}
-      \input{./illustration-on-curve.tikz}
-    \end{minipage}
-    \begin{minipage}{0.28\textwidth}
-      \begin{tabular}{|c|>{\centering\arraybackslash}p{13mm}|} \hline
-        $\HH^0(\pi_{\emptyset}(Y))$ & $1$ \\ \hline
-        $\HH^1(\pi_{1}(Y))$ & $14+2\frac{1}{2}$ \\
-        $\HH^1(\pi_{2}(Y))$ & $5+2\frac{1}{2}$ \\
-        $\HH^1(\pi_{3}(Y))$ & $4$ \\ \hline
-        $\HH^2(\pi_{1,2}(Y))$ & $21+2\frac{1}{2}$ \\
-        $\HH^2(\pi_{1,3}(Y))$ & $18+2\frac{1}{2}$ \\
-        $\HH^2(\pi_{2,3}(Y))$ & $10+\frac{1}{2}$ \\ \hline
-        $\HH^3(\pi_{1,2,3}(Y))$ & $27+2\frac{1}{2}$ \\ \hline
-        $\frac{1}{r^0}W_0(Y)$ & \cellcolor{lightgray}$1$ \\
-        $\frac{1}{r^2}W_1(Y)$ & \cellcolor{lightgray}$4.32$ \\
-        $\frac{1}{r^4}W_2(Y)$ & \cellcolor{lightgray}$0.23$ \\
-        $\frac{1}{r^6}W_3(Y)$ & \cellcolor{lightgray}$0.00$ \\ \hline
-      \end{tabular}
-      \begin{tabular}{|c|>{\centering\arraybackslash}p{4.5mm}>{\centering\arraybackslash}p{5mm}>{\centering\arraybackslash}p{5mm}>{\centering\arraybackslash}p{5.5mm}|} \hline
-        $m$ & 0 & 1 & 2 & 3 \\ \hline
-        $\bar{W}_{m}(0)$ & 1 & 0 & 0 & 0 \\
-        $\bar{W}_{m}(1)$ & \cellcolor{lightgray}1 & \cellcolor{lightgray}4 & \cellcolor{lightgray}0 & \cellcolor{lightgray}0 \\
-        $\bar{W}_{m}(2)$ & 1 & 8 & $\pi^2$ & 0 \\
-        $\bar{W}_{m}(3)$ & 1 & 12 & $3\pi^2$ & $\frac{16}{9}\pi^2$ \\ \hline
-      \end{tabular}
-    \end{minipage}
-  \end{center}
-  \caption{Local dimension analysis on a voxelization of a 3D curve
-    $X$ using the stability of measures $W_m$. Here $Y:=U_1(X) \cap
-    B(p,r)$ with $r=8$. Each cube has unit side so its $m$-dimensional
-    measure is $1$ if fully inside $B(p,r)$. To simplify the
-    exposition, measures are approximated as $\frac{1}{2}$ for cubes
-    on the boundary of the ball $\partial B(p,r)$. Haussdorf measures
-    of projections and local measures $\frac{1}{r^{2m}}W_m(Y)$ are
-    displayed on the right. One can check for instance that
-    $\frac{1}{r^2}W_1(Y) = \frac{15^2+6^2+4^2}{8^2} \approx 4.32$ and
-    $\frac{1}{r^4}W_2(Y) = \frac{22^2+19^2+10.5^2}{8^4} \approx 0.23$.
-    The invariants $\bar{W}_m(1)$ are the closest to the local
-    measures (grayed cells), which show that $p$ is with high
-    probability the voxelization of a $1$-submanifold of $\R^3$,
-    i.e. a curve in 3D.  \label{fig-illustration}}
-    %% in order to approximate the intersections with the ball, Measuring
-    %% 1D projections gives $\HH^1(\pi_{1}(Y))=14+2\frac{1}{2}$,
-    %% $\HH^1(\pi_{2}(Y))=5+2\frac{1}{2}$, $\HH^1(\pi_{3}(Y))=4$ (to
-    %% simplify, we have counted $\frac{1}{2}$ for cubes on the boundary
-    %% of the ball $\partial B(p,r)$ in order to approximate the
-    %% intersections with the ball). So $\frac{1}{r^2}W_1(Y) =
-    %% \frac{15^2+6^2+4^2}{8^2} \approx 4.32$. For a 1-manifold, expected
-    %% value is $\bar{W}_1(1)=4$ while for a 2-manifold it is
-    %% $\bar{W}_1(2)=8$. So the first measure $W_1$ seems to indicate
-    %% that $p$ is part of a 1-manifold. Now measuring 2D projections
-    %% gives $\HH^2(\pi_{1,2}(Y))=21+2\frac{1}{2}$,
-    %% $\HH^2(\pi_{1,3}(Y))=18+2\frac{1}{2}$,
-    %% $\HH^2(\pi_{2,3}(Y))=10+\frac{1}{2}$. So $\frac{1}{r^4}W_2(Y) =
-    %% \frac{22^2+19^2+10.5^2}{8^4} \approx 0.23$. For a 1-manifold,
-    %% expected value is $\bar{W}_2(1)=0$, and for a 2-manifold it is
-    %% $\bar{W}_2(2)=\pi^2$. The second measure $W_2$ tells that $p$ is
-    %% not part of 2-manifold, which confirms that $p$ is indeed part of
-    %% a curve in 3D.\label{fig-illustration}}
-\end{figure}
 
 Note that both measures $V_J$ and $W_m$ are also stable with respect
 to small perturbations in the position of $p$. The result above shows
@@ -166,19 +104,20 @@ that tangent perturbations do not change the value $W_m$. Although we
 do not prove it here due to space reasons, a perturbation of $\nu$ in
 the normal direction induces an error in $W_m$ of $O(\nu^2
 r^{2m-2}+\nu r^{2m} / \rho)$. The following subsections give the
-proofs of the theorems mentioned above.
+proofs of the theorems mentioned in the proof above.
+
 
 \subsection{Local measures of $k$-balls are invariants}
 
 The fact that the Pythagorean theorem extends to arbitrary volumes has
-been rediscovered under different forms several times \cite{Conant01031974,Czyzewska:1991}. The recent
-paper of Ancel \cite{ancel2023pythagorean} provides a general form
+been rediscovered under different forms several times \cite{Conant01031974,Czyzewska:1991}. Ancel \cite{ancel2023pythagorean} provides a general form
 for a Lebesgue measurable set $S$ in a $k$-dimensional affine
 space. Then $\HH^k(S)^2=\sum_{J \in \mathcal{I}_k} \HH^k(\pi_J(S))^2$ (here
 Lebesgue and $k$-th Hausdorff measures are the same).
 
-We provide here a much simpler proof for the case of the ball, which
-is sufficient in our context. This formulation also extends the result to lower dimensional projections (i.e. for $0 \Le m < k$).
+We provide here a similar result for the case of the ball, which extends it to any  lower dimensional projections (i.e. for $0 \Le m < k$) while being much simpler.
+%% We provide here a much simpler proof for the case of the ball, which
+%% is sufficient in our context. This formulation also extends the result to lower dimensional projections (i.e. for $0 \Le m < k$).
 \begin{theorem}\label{thm:ball-invariants}
 Let $B^k$ be the unit Euclidean ball embedded isometrically into
 $\mathbb{R}^d$ with the linear map $A\in\mathbb{R}^{d\times k}, A^T
@@ -261,9 +200,53 @@ $\bar{W}_{m}(k)$ these geometric invariants of the $k$-ball. So for $0
 any affine $k$-dimensional plane and $p \in T$, $W_m( B_T(p,r),p,r) =
 \bar{W}_{m}(k) r^{2m}$.  These values (scaled by $r^{2m}$) correspond
 to the expected values of the local measures when analyzing
-digitizations of $k$-dimensional submanifolds (see appendix for tables
-expliciting their values in low dimension).
+digitizations of $k$-dimensional submanifolds (see
+\RefFigure{fig-illustration}).
 
+\begin{figure}
+  \begin{center}
+    \begin{minipage}{0.7\textwidth}
+      \input{./illustration-on-curve.tikz}
+    \end{minipage}
+    \begin{minipage}{0.28\textwidth}
+      \begin{tabular}{|c|>{\centering\arraybackslash}p{13mm}|} \hline
+        $\HH^0(\pi_{\emptyset}(Y))$ & $1$ \\ \hline
+        $\HH^1(\pi_{1}(Y))$ & $14+2\frac{1}{2}$ \\
+        $\HH^1(\pi_{2}(Y))$ & $5+2\frac{1}{2}$ \\
+        $\HH^1(\pi_{3}(Y))$ & $4$ \\ \hline
+        $\HH^2(\pi_{1,2}(Y))$ & $21+2\frac{1}{2}$ \\
+        $\HH^2(\pi_{1,3}(Y))$ & $18+2\frac{1}{2}$ \\
+        $\HH^2(\pi_{2,3}(Y))$ & $10+\frac{1}{2}$ \\ \hline
+        $\HH^3(\pi_{1,2,3}(Y))$ & $27+2\frac{1}{2}$ \\ \hline
+        $\frac{1}{r^0}W_0(Y)$ & \cellcolor{lightgray}$1$ \\
+        $\frac{1}{r^2}W_1(Y)$ & \cellcolor{lightgray}$4.32$ \\
+        $\frac{1}{r^4}W_2(Y)$ & \cellcolor{lightgray}$0.23$ \\
+        $\frac{1}{r^6}W_3(Y)$ & \cellcolor{lightgray}$0.00$ \\ \hline
+      \end{tabular}
+      \begin{tabular}{|c|>{\centering\arraybackslash}p{4.5mm}>{\centering\arraybackslash}p{5mm}>{\centering\arraybackslash}p{5mm}>{\centering\arraybackslash}p{5.5mm}|} \hline
+        $m$ & 0 & 1 & 2 & 3 \\ \hline
+        $\bar{W}_{m}(0)$ & 1 & 0 & 0 & 0 \\
+        $\bar{W}_{m}(1)$ & \cellcolor{lightgray}1 & \cellcolor{lightgray}4 & \cellcolor{lightgray}0 & \cellcolor{lightgray}0 \\
+        $\bar{W}_{m}(2)$ & 1 & 8 & $\pi^2$ & 0 \\
+        $\bar{W}_{m}(3)$ & 1 & 12 & $3\pi^2$ & $\frac{16}{9}\pi^2$ \\ \hline
+      \end{tabular}
+    \end{minipage}
+  \end{center}
+  \caption{Local dimension analysis on a voxelization of a 3D curve
+    $X$ using the stability of measures $W_m$. Here $Y:=U_1(X) \cap
+    B(p,r)$ with $r=8$. Each cube has unit side so its $m$-dimensional
+    measure is $1$ if fully inside $B(p,r)$. To simplify the
+    exposition, measures are approximated as $\frac{1}{2}$ for cubes
+    on the boundary of the ball $\partial B(p,r)$. Haussdorf measures
+    of projections and local measures $\frac{1}{r^{2m}}W_m(Y)$ are
+    displayed on the right. One can check for instance that
+    $\frac{1}{r^2}W_1(Y) = \frac{15^2+6^2+4^2}{8^2} \approx 4.32$ and
+    $\frac{1}{r^4}W_2(Y) = \frac{22^2+19^2+10.5^2}{8^4} \approx 0.23$.
+    The invariants $\bar{W}_m(1)$ are the closest to the local
+    measures (grayed cells), which show that $p$ is with high
+    probability the voxelization of a $1$-submanifold of $\R^3$,
+    i.e. a curve in 3D.  \label{fig-illustration}}
+\end{figure}
 
 
 
@@ -276,11 +259,6 @@ tangent space $T_pX$ of $X$ at $p$ is simply written $T$, and we
 identify the affine tangent plane with $p+T$. We write simply
 $D_r:=p+(T\cap B(0,r))$ for the disk of radius $r$ placed on the
 tangent plane at $p$.
-
-\begin{figure}[t]
-  \input{./local_stability.tikz}
-  \caption{\label{fig-proof-stability}Illustration of the proof of \RefTheorem{thm:stabilite-projections}. \textbf{Left}: the subset $Y$ is any covering set of $X \cap B(p,r)$ and covered by $X_\varepsilon \cap B(p,r)$, examplified here as the $h$-voxelization of $X$; Projections $\mathcal{E}_J$ and $\mathcal{F}_J$ are close. \textbf{Right}: the homotopy $G_{J,t}$ between subsets of $T \cap B(p,r)$ and $X \cap(B,r)$ (vertical offsets indicate $t$ only, all images lie on the $x$-axis).  }
-\end{figure}
 
 \begin{theorem}
 \label{thm:stabilite-projections}
@@ -303,21 +281,25 @@ then, for every $J\in\mathcal I_m$,
 &\Le C r^{2m-1}\left(\varepsilon+\frac{r^2}{\rho}\right).
 \end{align}
 \end{theorem}
+\begin{figure}[t]
+  \input{./local_stability.tikz}
+  \caption{\label{fig-proof-stability}Illustration of the proof of \RefTheorem{thm:stabilite-projections}. \textbf{Left}: the subset $Y$ is any covering set of $X \cap B(p,r)$ and covered by $X_\varepsilon \cap B(p,r)$, examplified here as the $h$-voxelization of $X$; Projections $\mathcal{E}_J$ and $\mathcal{F}_J$ are close. \textbf{Right}: the homotopy $G_{J,t}$ between subsets of $T \cap B(p,r)$ and $X \cap(B,r)$ (vertical offsets indicate $t$ only, all images lie on the $x$-axis).  }
+\end{figure}
 \begin{proof}
 To simplify expressions, $C$ denotes a positive constant depending only
 on $d$ and $k$, whose value may change during the proof. Set
 $X_r:=X\cap B(p,r)$.
 \begin{enumerate}
   %% 1 %%
-\item The proof is illustrated on \RefFigure{fig-proof-stability}. We start by approximating $X_r$ by $D_r$. Since $X$ has positive
-reach, for a sufficiently small $\alpha_0$, the set $X$ is, in a
-neighborhood of $p$, the graph over $T$ of a $C^2$ map
-$f:\Omega\subset T\to T^\perp$, with
-\(f(0)=0, Df(0)=0, |f(u)|\Le C\frac{|u|^2}{\rho}, \|Df(u)\|\Le C\frac{|u|}{\rho}.\)
-Let $\Phi(u):=p+u+f(u)$. For $x=\Phi(u)\in X_r$, since
-$u\perp f(u)$, we have $|u|\Le |x-p|\Le r$. Furthermore,
-\(|x-(p+u)|=|f(u)|\Le C\frac{r^2}{\rho}=: \delta,\)
-so that
+\item The proof is illustrated on
+  \RefFigure{fig-proof-stability}. Firt let us approach $X_r$ by
+  $D_r$. Since $X$ has positive reach, for a small enough
+  $\alpha_0$, the set $X$ is, around $p$, the graph over
+  $T$ of a $C^2$ map $f:\Omega\subset T\to T^\perp$, with \(f(0)=0,
+  Df(0)=0, |f(u)|\Le C\frac{|u|^2}{\rho}, \|Df(u)\|\Le
+  C\frac{|u|}{\rho}.\) Let $\Phi(u):=p+u+f(u)$. For $x=\Phi(u)\in
+  X_r$, since $u\perp f(u)$, we have $|u|\Le |x-p|\Le r$. Furthermore,
+  \(|x-(p+u)|=|f(u)|\Le C\frac{r^2}{\rho}=: \delta,\) so that
 \begin{equation}
 \label{eq:X-outer}
  X_r\subset (D_r)_\delta.
@@ -496,7 +478,7 @@ Since $Y\subset B(p,r)$ and $D_r\subset B(p,r)$, this is exactly
 \eqref{eq:stabilite-VJ}.
 
 \item Finally, set
-\(a_J:=\HH^m(\pi_J(Y)),\qquad b_J:=\HH^m(\pi_J(D_r)).\)
+\(a_J:=\HH^m(\pi_J(Y)), b_J:=\HH^m(\pi_J(D_r)).\)
 Since both projected sets are contained in an $m$-ball of radius $r$,
 $a_J+b_J\Le Cr^m$. Hence
 \(|a_J^2-b_J^2| =|a_J-b_J|(a_J+b_J) \Le C r^{2m-1}\left(\varepsilon+\frac{r^2}{\rho}\right).\)
@@ -516,13 +498,15 @@ which proves \eqref{eq:stabilite-W}.
 We now show that the $h$-voxelization of $X$, restricted to $B(p,r)$,
 satisfies the hypotheses of the previous stability theorem.  The only
 geometric ingredient is the following elementary estimate on thin
-annuli of $X$. In this section, we can relax slightly the $C^2$-smoothness
-constraint on $X$ and ask $X\subset\mathbb R^d$ to be a closed
-$C^{1,1}$-submanifold without boundary, with
-$\operatorname{reach}(X)\Ge\rho>0$.
+annuli of $X$.  In this section, $X$ is a closed $C^{1,1}$-submanifold
+of $\R^d$ without boundary, with $\operatorname{reach}(X)\Ge\rho>0$.
+%% In this section, we can relax slightly the $C^2$-smoothness
+%% constraint on $X$ and ask $X\subset\mathbb R^d$ to be a closed
+%% $C^{1,1}$-submanifold without boundary, with
+%% $\operatorname{reach}(X)\Ge\rho>0$.
 
 
-\begin{lemma}[Radial annulus estimate]
+\begin{lemma}%[Radial annulus estimate]
   \label{lem:radial-annulus}
 For any $p,x\in X$ and $0<r<|x-p|=s<\rho$, one has
 \begin{equation}\label{eq:radial-annulus}
@@ -648,17 +632,16 @@ then
 \end{theorem}
 
 \begin{proof}
-The first inclusion follows from $X\subset U_h(X)$ (it is a covering
-of $X$). For the second inclusion, for any $y\in Y_h$, choose a cube
-containing $y$ and intersecting $X$, and let $x\in X$ belong to that
-cube. Then $|x-y|\Le\sqrt d\,h$ and $|x-p|\Le r+\sqrt d\,h\Le(1+\sqrt
-d)r<\rho$.  If $x\in X_r$, then $\operatorname{dist}(y,X_r)\Le\sqrt
-d\,h$.  Otherwise, the radial annulus estimate
-(Lemma~\ref{lem:radial-annulus}) gives $\operatorname{dist}(x,X_r)
-\Le\frac{2}{\sqrt3}(|x-p|-r) \Le\frac{2}{\sqrt3}\sqrt d\,h$.
-Consequently, $\operatorname{dist}(y,X_r) \Le
-|y-x|+\operatorname{dist}(x,X_r) \Le(1+2/\sqrt3)\sqrt d\,h$, which
-concludes. \qed
+The first inclusion follows from $X\subset U_h(X)$. For the second
+inclusion, for any $y\in Y_h$, choose a cube containing $y$ and
+intersecting $X$, and let $x\in X$ belong to that cube. Then
+$|x-y|\Le\sqrt d\,h$ and $|x-p|\Le r+\sqrt d\,h\Le(1+\sqrt d)r<\rho$.
+If $x\in X_r$, then $\operatorname{dist}(y,X_r)\Le\sqrt d\,h$.
+Otherwise, Lemma~\ref{lem:radial-annulus} gives
+$\operatorname{dist}(x,X_r) \Le\frac{2}{\sqrt3}(|x-p|-r)
+\Le\frac{2}{\sqrt3}\sqrt d\,h$.  Hence
+$\operatorname{dist}(y,X_r) \Le |y-x|+\operatorname{dist}(x,X_r)
+\Le(1+2/\sqrt3)\sqrt d\,h$, which concludes. \qed
 \end{proof}
 
 

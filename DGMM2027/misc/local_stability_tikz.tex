@@ -1,0 +1,78 @@
+\documentclass[tikz,border=5pt]{standalone}
+\usetikzlibrary{calc,arrows.meta}
+\begin{document}
+\def\Angle{-28}
+\def\Curvature{0.2}
+\def\Radius{2.05}
+\def\Mesh{0.30}
+\def\Px{0}
+\def\Py{1.65}
+\pgfmathsetmacro{\ct}{cos(\Angle)}
+\pgfmathsetmacro{\st}{sin(\Angle)}
+\pgfmathsetmacro{\umin}{-2.9}
+\pgfmathsetmacro{\umax}{2.9}
+\pgfmathsetmacro{\rr}{\Radius-0.18}
+% Endpoint of the curve inside the ball, computed numerically by bisection.
+\pgfmathsetmacro{\ub}{\Radius}
+\foreach \i in {1,...,25}{\pgfmathsetmacro{\ub}{0.5*(\ub+\Radius/sqrt(1+0.25*\Curvature*\Curvature*\ub*\ub))}}
+\pgfmathsetmacro{\leftX}{\Px-\ub*\ct-0.5*\Curvature*\ub*\ub*\st}
+\pgfmathsetmacro{\rightX}{\Px+\ub*\ct-0.5*\Curvature*\ub*\ub*\st}
+\pgfmathsetmacro{\ellX}{\Px-\Radius*\ct}
+\pgfmathsetmacro{\rX}{\Px+\Radius*\ct}
+\pgfmathsetmacro{\rminus}{\rr*\ct}
+\tikzset{curve/.style={black,very thick}, tangent/.style={red!80!black,dashed,thick}, ball/.style={blue!75!black,dashed,thick}, guide/.style={gray!65,densely dotted}, axis/.style={-Latex,thin}}
+\begin{tikzpicture}[scale=1]
+\foreach \shift/\panel in {0/{(a) Local projections},8.2/{(b) Homotopy}}{
+\begin{scope}[xshift=\shift cm]
+  \draw[axis] (-3.1,0)--(3.25,0) node[right] {$x$};
+  \draw[axis] (-3,-0.2)--(-3,4.25) node[above] {$y$};
+  \node[anchor=west,font=\bfseries] at (-3,4.75) {\panel};
+  \draw[ball] (\Px,\Py) circle[radius=\Radius];
+  \node[blue!70!black] at (1.65,3.55) {$B(p,r)$};
+  \draw[tangent] ({\Px+\umin*\ct},{\Py+\umin*\st})--({\Px+\umax*\ct},{\Py+\umax*\st});
+  \draw[curve,domain=\umin:\umax,samples=100,smooth,variable=\u] plot ({\Px+\u*\ct-0.5*\Curvature*\u*\u*\st},{\Py+\u*\st+0.5*\Curvature*\u*\u*\ct});
+  \fill (\Px,\Py) circle (1.8pt) node[above right] {$p$};
+  \node[red!75!black] at (2.45,0.72) {$T_pX$};
+\end{scope}
+}
+% Voxel squares: a grid-based approximation, clipped visually by the ball.
+\begin{scope}
+\clip (\Px,\Py) circle[radius=\Radius];
+\foreach \i in {-10,...,10}{
+ \foreach \j in {-4,...,16}{
+  \pgfmathsetmacro{\xx}{(\i+0.5)*\Mesh}
+  \pgfmathsetmacro{\yy}{(\j+0.5)*\Mesh}
+  \pgfmathsetmacro{\uu}{(\xx-\Px)*\ct+(\yy-\Py)*\st}
+  \pgfmathsetmacro{\vv}{-(\xx-\Px)*\st+(\yy-\Py)*\ct}
+  \pgfmathsetmacro{\distance}{abs(\vv-0.5*\Curvature*\uu*\uu)}
+  \ifdim\distance pt<0.22pt
+    \filldraw[fill=blue!25,draw=blue!40,line width=.18pt] (\i*\Mesh,\j*\Mesh) rectangle ++(\Mesh,\Mesh);
+  \fi
+ }
+}
+\end{scope}
+% Redraw curve and tangent for clarity
+\draw[tangent] ({\Px+\umin*\ct},{\Py+\umin*\st})--({\Px+\umax*\ct},{\Py+\umax*\st});
+\draw[curve,domain=\umin:\umax,samples=100,variable=\u] plot ({\Px+\u*\ct-0.5*\Curvature*\u*\u*\st},{\Py+\u*\st+0.5*\Curvature*\u*\u*\ct});
+\fill (\Px,\Py) circle (1.8pt);
+% Projected intervals: E tangent disk, F curve projection, blue enlarged voxel envelope.
+\draw[guide] (\ellX,\Py-\Radius*\st/2)--(\ellX,-.65);
+\draw[guide] (\rX,\Py+\Radius*\st/2)--(\rX,-.65);
+\draw[red!75!black,line width=3pt,opacity=.65] (\ellX,-.35)--(\rX,-.35);
+\node[red!75!black,below] at (0,-.40) {$\mathcal E_J$};
+\draw[blue!75!black,line width=3pt,opacity=.65] ({\leftX-0.11},-.95)--({\rightX+0.11},-.95);
+\node[blue!75!black,below] at (0,-1.0) {$\mathcal F_J$};
+% Second panel: homotopy curves use SAME angle and curvature, all tangent at p.
+\begin{scope}[xshift=8.2cm]
+\foreach \t in {0.25,0.5,0.75}{
+\draw[gray!70,line width=.9pt,domain=-\rr:\rr,samples=70,variable=\u] plot ({\Px+\u*\ct-\t*0.5*\Curvature*\u*\u*\st},{\Py+\u*\st+\t*0.5*\Curvature*\u*\u*\ct});
+}
+\draw[very thick,orange!85!black,domain=-\rr:\rr,samples=70,variable=\u] plot ({\Px+\u*\ct-0.5*\Curvature*\u*\u*\st},{\Py+\u*\st+0.5*\Curvature*\u*\u*\ct});
+\draw[very thick,red!70!black] ({\Px-\rr*\ct},{\Py-\rr*\st})--({\Px+\rr*\ct},{\Py+\rr*\st});
+\node[anchor=west,fill=white,inner sep=1pt,font=\small] at (-2.9,-.55) {$G_{J,t}(u)=p_x+u\cos\theta-tf(u)\sin\theta$};
+\node[gray!70!black] at (2.0,3.1) {$0<t<1$};
+\node[orange!80!black] at (2.1,2.8) {$t=1$};
+\node[red!75!black] at (2.1,2.5) {$t=0$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

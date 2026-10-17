@@ -1,4 +1,5 @@
-\section{Experiments}
+\section{Evaluation \& conclusion}
+\label{sec-experiments}
 
 \begin{figure}[t]
   \begin{tabular}{ccc}
@@ -16,18 +17,20 @@
     %% \includegraphics[width=0.48\textwidth]{test0-n0_2-r4-dim.png}&
     %% \includegraphics[width=0.48\textwidth]{test0-n0_2-r7-dim.png}\\
   \end{tabular}
-  \caption{\label{fig-dimension-analysis}Illustration of the local
-    $m$-measures to recognize the local dimension of a digital point
-    in a toy 3D image, composed of line segments, pierced surfaces and
-    a thick annulus with thin edges (top row: original image, bottom
-    row: image perturbated by a Kanungo noise with parameter 0.2). The
-    colormap ranges from white (0.0) to dark red (1.0). Each column
-    gives the probability that a voxel has a given dimension $k$, for
-    a radius $r=5$.}
+  \caption{\label{fig-dimension-analysis}Analysis using local measures
+    of the local dimension of the digital points in a toy 3D image,
+    composed of line segments, pierced surfaces and a thick annulus
+    with thin edges (top row: original image, bottom row: image
+    perturbated by a Kanungo noise with parameter 0.2). The colormap
+    ranges from white (0.0) to dark red (1.0). Each column gives the
+    probability that a voxel has a given dimension $k$, for a radius
+    $r=5$.}
 \end{figure}
 
-For a point $p$, let $W:=(W_0,\ldots,W_d)$ be its local measures for a
-radius $r$. Then define
+\noindent\textbf{Experimental evaluation.} We evaluate the robustness
+of the local measures on synthetic 3D digital data. For a point $p$,
+let $W:=(W_0/r^0,\ldots,W_d/r^{2d})$ be its normalized local measures
+for a radius $r$. Then define
 \[
 d_{k,j} := \left\{
 \begin{array}{l}
@@ -44,4 +47,26 @@ can be expressed as $\mathrm{P}[\dim(p)=k] := \mathrm{softmax}_k(q_0,
 \ldots, q_d)$. \RefFigure{fig-dimension-analysis} illustrates these
 values on a toy 3D image assembling digitized submanifolds of
 different dimensions. Note how the probabilities are invariant to the
-orientation of digitized manifolds, while staying robust to noise.
+orientation of digitized manifolds, while staying robust to noise. The
+computation time is about $1$s for 80k points.
+
+\noindent\textbf{Conclusion.}  We have presented new geometric
+invariants that are characteristic of the intrinsic dimension of
+submanifolds of $\R^d$ and remain robust to their digitizations, with
+proven quantitative error bounds. By essence, they are robust to noise
+and even outliers, and simple to compute. Furthermore, we have shown
+that projection volumes are also related to the normal vector field
+for hypersurfaces.
+
+\noindent\textbf{Perspectives.} On the theoretical side, we wish to
+extend the stability result to other standard discretization processes
+like GIQ, OBQ or
+%%Grid-Intersect Quantization, Object Boundary Quantization or
+Hausdorff discretization. On digitized surfaces, we could exploit the
+orientation of surfels to orient the normal estimator
+$\widehat{n}_h(p,r)$, hence proving its multigrid convergence. On a
+more practical level, we intend to develop a classifier that takes as
+input the multiscale values $W_m(p,r)$, and outputs the dimension, the
+probability that $p$ lies on the boundary, or other geometric
+features.
+%A small neural model would be enough for this task.
