@@ -3,70 +3,116 @@
 
 \begin{figure}[t]
   \begin{tabular}{ccc}
-    $\mathrm{P}[\dim(p)=1]$ &
-    $\mathrm{P}[\dim(p)=2]$ &
-    $\mathrm{P}[\dim(p)=3]$ \\
+    %%  $\mathrm{P}[\dim(p)=1]$ &
+    %% $\mathrm{P}[\dim(p)=2]$ &
+    %% $\mathrm{P}[\dim(p)=3]$ \\
     \includegraphics[width=0.32\textwidth]{test0-n0-r5-dim1.png}&
     \includegraphics[width=0.32\textwidth]{test0-n0-r5-dim2.png}&
     \includegraphics[width=0.32\textwidth]{test0-n0-r5-dim3.png}\\
     \includegraphics[width=0.32\textwidth]{test0-n0_2-r5-dim1.png}&
     \includegraphics[width=0.32\textwidth]{test0-n0_2-r5-dim2.png}&
     \includegraphics[width=0.32\textwidth]{test0-n0_2-r5-dim3.png}\\
-    %% \includegraphics[width=0.48\textwidth]{test0-n0-r4-dim.png}&
-    %% \includegraphics[width=0.48\textwidth]{test0-n0-r7-dim.png}\\
-    %% \includegraphics[width=0.48\textwidth]{test0-n0_2-r4-dim.png}&
-    %% \includegraphics[width=0.48\textwidth]{test0-n0_2-r7-dim.png}\\
   \end{tabular}
-  \caption{\label{fig-dimension-analysis}Analysis using local measures
-    of the local dimension of the digital points in a toy 3D image,
-    composed of line segments, pierced surfaces and a thick annulus
-    with thin edges (top row: original image, bottom row: image
-    perturbated by a Kanungo noise with parameter 0.2). The colormap
-    ranges from white (0.0) to dark red (1.0). Each column gives the
-    probability that a voxel has a given dimension $k$, for a radius
-    $r=5$.}
+  
+  \caption{\label{fig-dimension-analysis} Local intrinsic dimension
+    scores on a synthetic 3D digital set combining curves, perforated
+    surfaces, and a thick annulus with thin edges. Top: original data;
+    bottom: data perturbed by Kanungo noise (parameter 0.2). Columns
+    correspond to dimensions ($k=1,2,3$), with scores $P_k$ ranging
+    from white (0) to dark red (1), at radius ($r=5$).
+    %% Analysis using local measures
+    %% of the local dimension of the digital points in a toy 3D image,
+    %% composed of line segments, pierced surfaces and a thick annulus
+    %% with thin edges (top row: original image, bottom row: image
+    %% perturbated by a Kanungo noise with parameter 0.2). The colormap
+    %% ranges from white (0.0) to dark red (1.0). Each column gives the
+    %% probability that a voxel has a given dimension $k$, for a radius
+    %% $r=5$.
+  }
 \end{figure}
 
-\noindent\textbf{Experimental evaluation.} We evaluate the robustness
-of the local measures on synthetic 3D digital data. For a point $p$,
-let $W:=(W_0/r^0,\ldots,W_d/r^{2d})$ be its normalized local measures
-for a radius $r$. Then define
+
+\noindent\textbf{Experimental evaluation.}
+We evaluate the local measures on synthetic 3D digital data.
+For each point $p$ and radius $r$, let
+$W=(W_0/r^0,\ldots,W_d/r^{2d})$ denote the normalized local measures.
+We compare $W$ with the theoretical values $\bar W(k)$
+of a $k$-dimensional unit ball, using
 \[
-d_{k,j} := \left\{
-\begin{array}{l}
-  (W_j - \bar{W}_j(k))/\bar{W}_j(k))~\text{when $0\Le j \Le k$}\\
-  W_j/\bar{W}_j(j)~\text{when $k < j \Le d$}
-\end{array}
-\right.,
-\qquad
-q_k := \Pi_{j=0}^d e^{-j d_{k,j}^2}.
+d_{k,j}:=
+\begin{cases}
+(W_j-\bar W_j(k))/\bar W_j(k), & j\le k,\\
+W_j/\bar W_j(j), & j>k,
+\end{cases}
+\quad
+q_k:=\exp\left(-\sum_{j=0}^d j\,d_{k,j}^2\right).
 \]
-The value $q_k$ is the greatest when the vector $W$ ressembles the
-vector $\bar{W}(k)$. Then the probability that $p$ has dimension $k$
-can be expressed as $\mathrm{P}[\dim(p)=k] := \mathrm{softmax}_k(q_0,
-\ldots, q_d)$. \RefFigure{fig-dimension-analysis} illustrates these
-values on a toy 3D image assembling digitized submanifolds of
-different dimensions. Note how the probabilities are invariant to the
-orientation of digitized manifolds, while staying robust to noise. The
-computation time is about $1$s for 80k points.
+We define the dimension scores by $P_k=q_k/\sum_{\ell=0}^d q_\ell$.
+\RefFigure{fig-dimension-analysis} illustrates these scores on a
+synthetic 3D digital set combining structures of different intrinsic
+dimensions. The results show clear dimension discrimination, little
+sensitivity to orientation, and good visual stability under Kanungo
+noise.  Processing 80k points takes approximately $1$s on an Apple M2
+Max laptop (including nearest neighbor data structure construction,
+computing local volume projections and scores $(P_k)_{k=0,1,2,3}$).
 
-\noindent\textbf{Conclusion.}  We have presented new geometric
-invariants that are characteristic of the intrinsic dimension of
-submanifolds of $\R^d$ and remain robust to their digitizations, with
-proven quantitative error bounds. By essence, they are robust to noise
-and even outliers, and simple to compute. Furthermore, we have shown
-that projection volumes are also related to the normal vector field
-for hypersurfaces.
+\noindent\textbf{Conclusion.}
+We introduced projection-based geometric invariants
+characterizing the intrinsic dimension of submanifolds
+of $\R^d$, with quantitative stability bounds under
+cubical digitization. Experiments illustrate their
+practical effectiveness, including under noise.
+Individual projection volumes also provide estimates
+of the absolute normal components of hypersurfaces.
 
-\noindent\textbf{Perspectives.} On the theoretical side, we wish to
-extend the stability result to other standard discretization processes
-like GIQ, OBQ or
-%%Grid-Intersect Quantization, Object Boundary Quantization or
-Hausdorff discretization. On digitized surfaces, we could exploit the
-orientation of surfels to orient the normal estimator
-$\widehat{n}_h(p,r)$, hence proving its multigrid convergence. On a
-more practical level, we intend to develop a classifier that takes as
-input the multiscale values $W_m(p,r)$, and outputs the dimension, the
-probability that $p$ lies on the boundary, or other geometric
-features.
-%A small neural model would be enough for this task.
+\noindent\textbf{Perspectives.}
+Future work includes extending stability to other
+discretization schemes (GIQ, OBQ, and Hausdorff
+discretizations), recovering oriented normals from
+surfel orientations, and developing robust multiscale classifiers
+for local dimension, boundary detection, and other
+geometric features.
+
+
+%% \noindent\textbf{Experimental evaluation.} We evaluate the robustness
+%% of the local measures on synthetic 3D digital data. For a point $p$,
+%% let $W:=(W_0/r^0,\ldots,W_d/r^{2d})$ be its normalized local measures
+%% for a radius $r$. Then define
+%% \[
+%% d_{k,j} := \left\{
+%% \begin{array}{l}
+%%   (W_j - \bar{W}_j(k))/\bar{W}_j(k)~\text{when $0\Le j \Le k$}\\
+%%   W_j/\bar{W}_j(j)~\text{when $k < j \Le d$}
+%% \end{array}
+%% \right.,
+%% \qquad
+%% q_k := \Pi_{j=0}^d e^{-j d_{k,j}^2}.
+%% \]
+%% The value $q_k$ is the greatest when the vector $W$ ressembles the
+%% vector $\bar{W}(k)$. Then the probability that $p$ has dimension $k$
+%% can be expressed as $\mathrm{P}[\dim(p)=k] := \mathrm{softmax}_k(q_0,
+%% \ldots, q_d)$. \RefFigure{fig-dimension-analysis} illustrates these
+%% values on a toy 3D image assembling digitized submanifolds of
+%% different dimensions. Note how the probabilities are invariant to the
+%% orientation of digitized manifolds, while staying robust to noise. The
+%% computation time is about $1$s for 80k points on a Macbook laptop
+%% (Apple M2 Max chip).
+
+%% \noindent\textbf{Conclusion.}  We have presented new geometric
+%% invariants that are characteristic of the intrinsic dimension of
+%% submanifolds of $\R^d$ and remain robust to their digitizations, with
+%% proven quantitative error bounds. By essence, they are robust to noise
+%% and even outliers, and simple to compute. Furthermore, we have shown
+%% that projection volumes are also related to the normal vector field
+%% for hypersurfaces.
+
+%% \noindent\textbf{Perspectives.} On the theoretical side, we wish to
+%% extend the stability result to other standard discretization processes
+%% like GIQ, OBQ or Hausdorff discretization. On digitized surfaces, we
+%% could exploit the orientation of surfels to orient the normal
+%% estimator $\widehat{n}_h(p,r)$, hence proving its multigrid
+%% convergence. On a more practical level, we intend to develop a
+%% classifier that takes as input the multiscale values $W_m(p,r)$, and
+%% outputs the dimension, the probability that $p$ lies on the boundary,
+%% or other geometric features.
+

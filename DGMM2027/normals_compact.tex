@@ -46,12 +46,12 @@ $c$ is orthogonal to every column of $A$, and therefore $c$ is
 parallel to $n$.
 Moreover, applying the Cauchy--Binet formula gives
 \(
-\|c\|_2^2
+|c|^2
 =
 \sum_{i=1}^d\det(A_{\widehat i})^2
 =
 \det(A^\top A)=1.
-\).
+\)
 Since $n$ is a unit normal vector and $c$ is parallel to $n$, we obtain
 $c=\pm n$. In particular,
 \(
@@ -59,7 +59,7 @@ $c=\pm n$. In particular,
 \)
 Substitution into the expression for $V_{\widehat{i}}(T,p,r)$
 proves the first identity. The remaining
-identities follow from $\|n\|_2=1$. \qed
+identities follow from $|n|=1$. \qed
 \end{sloppypar}
 \end{proof}
 
@@ -156,7 +156,7 @@ that, whenever $0 < h \Le r$ and $0 < r < \min \{ \alpha_0,
 \frac{1}{1+\sqrt{d}} \} \rho$, the estimator is well-defined and
 satisfies
 \[
-\left\|\widehat{n}_h(p,r)-|n(p)|\right\|_2
+\left|\widehat{n}_h(p,r)-(|n_1(p)|,\ldots,|n_d(p)|)|\right|
 \Le C \left(\frac{h}{r}+\frac{r}{\rho} \right).
 \]
 \end{corollary}
@@ -198,21 +198,22 @@ Consequently,
 
 We set $a=\omega_{d-1}r^{d-1}$,
 $v=(V_{\widehat{1}}(Y,p,r),\ldots,V_{\widehat{d}}(Y,p,r))$ and
-$u=|n(p)|$.  Since $\|u\|_2=1$, the preceding relations translate to
-$\|v-au\|_2 \Le \sqrt d\,C_d r^{d-1}\left(\frac{h}{r}+\frac{r}{\rho}\right)$.
+$u=(|n_1(p)|,$ $\ldots$, $|n_d(p)|)$.  Since $|u|=1$, the preceding relations translate to
+$|v-au| \Le \sqrt d\,C_d r^{d-1}\left(\frac{h}{r}+\frac{r}{\rho}\right)$.
 
-For $r>0$, the vector $v$ is not null since $V_{\widehat{i}}(Y,p,r) > 0$ ($Y$ contains at least the projection of the cube containing $p$).
-%% Since \(X\) is a smooth hypersurface, at least one projection is
-%% locally nonsingular at \(p\). Hence \(v\ne0\) for every \(r>0\).
+Since $X\cap B(p,r)\subseteq Y$ and $X$ is a smooth hypersurface, at
+least one coordinate projection is locally nonsingular at $p$. Hence
+$v\ne 0$ for every $r>0$.
+%% For $r>0$, the vector $v$ is not null since $V_{\widehat{i}}(Y,p,r) > 0$ ($Y$ contains at least the projection of the cube containing $p$).
 It follows that:
 
 \begin{align*}
-\left\|\widehat n_h(p,r)-|n(p)|\right\|_2
-&= \left\|
-\frac{v}{\|v\|_2}-u
-\right\|_2
-\Le \frac{1}{a}\left(\left\| \frac{a}{\|v\|_2}v - v \right\|_2 + \|v-au\|_2 \right) \\
-&= \frac{1}{a}\left(|a-\|v\|_2| + \|v-au\|_2 \right) \Le \frac{2}{a}\|v-au\|_2
+\left|\widehat n_h(p,r)-|n(p)|\right|
+&= \left|
+\frac{v}{|v|}-u
+\right|
+\Le \frac{1}{a}\left(\left| \frac{a}{|v|}v - v \right| + |v-au| \right) \\
+&= \frac{1}{a}\left(|a-|v|| + |v-au| \right) \Le \frac{2}{a}|v-au|
 \Le \frac{2\sqrt d\,C_d}
     {\omega_{d-1}}
     \left(\frac{h}{r}+\frac{r}{\rho}\right).
@@ -240,9 +241,12 @@ components.
 %% Although these signed quantities should be distinguished
 %% from the unsigned projection volumes considered above, they are
 %% analogous per space orthant.
-Although they share similitudes with the local measures, proving that
-they lead to a convergent normal estimator remains a perspective to
-this work.
+Although these quantities are closely related to the local
+projection measures, establishing the convergence of the
+resulting signed normal estimator is left for future work.
+%% Although they share similitudes with the local measures, proving that
+%% they lead to a convergent normal estimator remains a perspective to
+%% this work.
 %
 Finally, the error bound suggests balancing the discretization
 and curvature contributions by choosing

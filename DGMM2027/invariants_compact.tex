@@ -11,7 +11,10 @@ $J$. Let $p$ be any point of $\R^d$ and let $r>0$ define the radius of
 the local analysis. We write $B(p,r)$ the $d$-dimensional ball of
 center $p$ and radius $r$. The unit $m$-dimensional ball centered on
 $0$ is denoted by $B^m$, with volume $\omega_m$. If $T$ is a subset of
-$\R^d$, we write $B_T(p,r)$ for $B(p,r) \cap T$.
+$\R^d$, we write $B_T(p,r)$ for $B(p,r) \cap T$.  Throughout the
+paper, $|v|$ denotes the Euclidean norm of a vector $v$, while $\|A\|$
+denotes the operator norm of a linear map $A$ between Euclidean
+spaces.
 
 Let $X \subset \R^d$ be a $C^2$-smooth submanifold of $\R^d$ of
 dimension $k$ without boundary. We further suppose it has positive
@@ -38,8 +41,8 @@ This section establishes several results for these measures:
 \item For $T$ an arbirary $k$-dimensional plane, $W_m(T,p,r)=0$ if
   $m>k$, otherwise $W_m(T,p,r)=\omega_m^2\binom{k}{m}r^{2m}$,
   independently of the orientation of $T$ in $\R^d$ (\RefTheorem{thm:ball-invariants}).
-\item $W_m(X,p,r)$ is close to $W_m(T_p X,p,r)$ (for $T_p X$ the
-  tangent plane to $X$ at $p$), hence independent of the orientation
+\item $W_m(X,p,r)$ is close to $W_m(p+T_p X,p,r)$ (for $T_p X$ the
+  linear tangent plane to $X$ at $p$), hence independent of the orientation
   of the tangent plane (\RefTheorem{thm:stabilite-projections}).
 \item The same result hold for a covering discretization of $X$ (\RefTheorem{thm:cubical-admissible-set}).
 %% \item The quantities $V_J$ are also stable and related to the local
@@ -53,11 +56,12 @@ This section establishes several results for these measures:
 %% also show the convergence of these local measures for finer and finer
 %% digitizations.
 
-Our main result below states that the local measures of a digitized set
-depend essentially on the dimension of its underlying submanifold,
+Our main result below states that the local measures of a digitized
+set depend essentially on the dimension of its underlying submanifold,
 with an error that tends to zero with the discretization
 gridstep. This provides a tool for analyzing the local dimension of
-digital data, see \RefFigure{fig-illustration} for an illustration.
+digital data, see \RefFigure{fig-illustration},
+page~\pageref{fig-illustration}, for an illustration.
 
 \begin{theorem}[Local approximation of $W_m$]
 \label{thm:main}
@@ -115,7 +119,7 @@ for a Lebesgue measurable set $S$ in a $k$-dimensional affine
 space. Then $\HH^k(S)^2=\sum_{J \in \mathcal{I}_k} \HH^k(\pi_J(S))^2$ (here
 Lebesgue and $k$-th Hausdorff measures are the same).
 
-We provide here a similar result for the case of the ball, which extends it to any  lower dimensional projections (i.e. for $0 \Le m < k$) while being much simpler.
+We provide here a similar result for the case of the ball, which extends it to any  lower dimensional projections (i.e. for $0 \Le m < k$), with a more elementary proof. 
 %% We provide here a much simpler proof for the case of the ball, which
 %% is sufficient in our context. This formulation also extends the result to lower dimensional projections (i.e. for $0 \Le m < k$).
 \begin{theorem}\label{thm:ball-invariants}
@@ -129,7 +133,7 @@ A=\mathrm{Id}_k$ (so $k \le d$).  For every integer $m$, $0\le m\le k$, one has
 The same sum is obviously null if $k < m \Le d$.
 \end{theorem}
 \begin{proof}
-For every subset $J \in \mathcal{I}_m$, Lemma~\ref{lem:svd} (see appendix) applied
+For every $J \in \mathcal{I}_m$, Lemma~\ref{lem:svd} (see appendix) applied
 to $L=\pi_J\circ A$ gives
 \begin{equation}
   \label{eq-vol-proj-ball-1}
@@ -219,7 +223,7 @@ digitizations of $k$-dimensional submanifolds (see
         $\HH^2(\pi_{2,3}(Y))$ & $10+\frac{1}{2}$ \\ \hline
         $\HH^3(\pi_{1,2,3}(Y))$ & $27+2\frac{1}{2}$ \\ \hline
         $\frac{1}{r^0}W_0(Y)$ & \cellcolor{lightgray}$1$ \\
-        $\frac{1}{r^2}W_1(Y)$ & \cellcolor{lightgray}$4.32$ \\
+        $\frac{1}{r^2}W_1(Y)$ & \cellcolor{lightgray}$4.33$ \\
         $\frac{1}{r^4}W_2(Y)$ & \cellcolor{lightgray}$0.23$ \\
         $\frac{1}{r^6}W_3(Y)$ & \cellcolor{lightgray}$0.00$ \\ \hline
       \end{tabular}
@@ -235,17 +239,23 @@ digitizations of $k$-dimensional submanifolds (see
   \caption{Local dimension analysis on a voxelization of a 3D curve
     $X$ using the stability of measures $W_m$. Here $Y:=U_1(X) \cap
     B(p,r)$ with $r=8$. Each cube has unit side so its $m$-dimensional
-    measure is $1$ if fully inside $B(p,r)$. To simplify the
-    exposition, measures are approximated as $\frac{1}{2}$ for cubes
-    on the boundary of the ball $\partial B(p,r)$. Haussdorf measures
-    of projections and local measures $\frac{1}{r^{2m}}W_m(Y)$ are
-    displayed on the right. One can check for instance that
-    $\frac{1}{r^2}W_1(Y) = \frac{15^2+6^2+4^2}{8^2} \approx 4.32$ and
-    $\frac{1}{r^4}W_2(Y) = \frac{22^2+19^2+10.5^2}{8^4} \approx 0.23$.
-    The invariants $\bar{W}_m(1)$ are the closest to the local
-    measures (grayed cells), which show that $p$ is with high
-    probability the voxelization of a $1$-submanifold of $\R^3$,
-    i.e. a curve in 3D.  \label{fig-illustration}}
+    measure is $1$ if fully inside $B(p,r)$. As a simplifying
+    convention, the measure of each projected grid cell intersecting
+    the boundary $\partial B(p,r)$ is approximated by $\frac{1}{2}$.
+    Haussdorf measures of projections and local measures
+    $\frac{1}{r^{2m}}W_m(Y)$ are displayed on the right. One can check
+    for instance that $\frac{1}{r^2}W_1(Y) = \frac{15^2+6^2+4^2}{8^2}
+    \approx 4.33$ and $\frac{1}{r^4}W_2(Y) =
+    \frac{22^2+19^2+10.5^2}{8^4} \approx 0.23$.  The reference
+    invariants $\bar{W}_m(1)$ are closest to the observed normalized
+    measures (shaded cells), indicating that the neighborhood of $p$
+    is most consistent with a one-dimensional structure, i.e. a curve
+    in 3D.
+    %% The invariants $\bar{W}_m(1)$ are the closest to the local
+    %% measures (grayed cells), which show that $p$ is with high
+    %% probability the voxelization of a $1$-submanifold of $\R^3$,
+    %% i.e. a curve in 3D.
+    \label{fig-illustration}}
 \end{figure}
 
 
@@ -292,7 +302,7 @@ $X_r:=X\cap B(p,r)$.
 \begin{enumerate}
   %% 1 %%
 \item The proof is illustrated on
-  \RefFigure{fig-proof-stability}. Firt let us approach $X_r$ by
+  \RefFigure{fig-proof-stability}. First let us approach $X_r$ by
   $D_r$. Since $X$ has positive reach, for a small enough
   $\alpha_0$, the set $X$ is, around $p$, the graph over
   $T$ of a $C^2$ map $f:\Omega\subset T\to T^\perp$, with \(f(0)=0,
@@ -493,7 +503,7 @@ which proves \eqref{eq:stabilite-W}.
 \end{proof}
 
 
-\subsection{Discretization error}
+\subsection{A submanifold is Hausdorff-close to its voxelization}
 
 We now show that the $h$-voxelization of $X$, restricted to $B(p,r)$,
 satisfies the hypotheses of the previous stability theorem.  The only
@@ -521,21 +531,21 @@ Let $g:X\setminus\{p\}\to\mathbb R$ be defined by
 $g(z)=|z-p|$. The angle estimate of Federer
 (see also \cite[Lemma~9]{lieutier2024manifolds})
 gives, for $|z-p|<\rho$,
-$\|\operatorname{proj}_{(T_zX)^\perp}(z-p)\|
+$|\operatorname{proj}_{(T_zX)^\perp}(z-p)|
 \Le |z-p|^2/(2\rho)$.
 Consequently,
-$\|\nabla_X g(z)\|
-=\|\operatorname{proj}_{T_zX}(z-p)\|/|z-p|
+$|\nabla_X g(z)|
+=|\operatorname{proj}_{T_zX}(z-p)|/|z-p|
 \Ge\sqrt{1-|z-p|^2/(4\rho^2)}$.
 
 
 Starting at $x$, follow the unit-speed descending
-gradient field $-\nabla_Xg/\|\nabla_Xg\|$ until the
+gradient field $-\nabla_Xg/|\nabla_Xg|$ until the
 first point $x_*$ with $g(x_*)=r$.
 Along this unit-speed curve $\gamma:[0,t_*]\to X$,
 the distance to $p$ decreases and
 $-\frac{d}{dt}g(\gamma(t))
-=\|\nabla_Xg(\gamma(t))\|
+=|\nabla_Xg(\gamma(t))|
 \Ge c_s:=\sqrt{1-s^2/(4\rho^2)}$.
 Integrating from $0$ to $t_*$ yields
 $s-r\Ge c_s t_*$.
